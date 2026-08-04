@@ -1,0 +1,18 @@
+{
+  "name": "Caza",
+  "short_name": "Caza",
+  "description": "A shared space for you and a friend. Chat, notes, and things to do together.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#6a4bd0",
+  "theme_color": "#6a4bd0",
+  "icons": [
+    { "src": "/pwa/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/pwa/icon-256.png", "sizes": "256x256", "type": "image/png" },
+    { "src": "/pwa/icon-384.png", "sizes": "384x384", "type": "image/png" },
+    { "src": "/pwa/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/pwa/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
