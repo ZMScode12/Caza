@@ -560,6 +560,7 @@ html[data-theme="dusk"] .note{background:var(--you-bubble);color:var(--you-ink)}
 const SUPA_URL = 'https://rrbxwwlzqvakpyvhwmtt.supabase.co';
 const SUPA_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyYnh3d2x6cXZha3B5dmh3bXR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU3ODM0MjcsImV4cCI6MjEwMTM1OTQyN30.qmJeZhLBxkceYMSjXfBSOrgPOT7bu85p63_3nD8EXHc';
 const EMAIL_DOMAIN = '@caza-app.net';
+const PRESENCE_ENABLED = true;  /* set false if realtime ever misbehaves */
 const VAPID_PUBLIC = 'BHBaFpRAfS941ufV5B18OHyFUDNdsS8Z5JfleUcgRevFrT2Di8NaHJVif0qK1Vf4ECr4tbQBRTwIpqGhqxAU2G0';
 function urlB64ToUint8(b64){
   const pad='='.repeat((4-b64.length%4)%4);
@@ -644,26 +645,35 @@ const Supa = (()=>{
         p=>{ if(p.new&&p.new.data){ state.play=p.new.data; if(playSub)playSub(); } })
       .subscribe();
 
-    // --- presence: who is connected right now ---
-    presenceChan = sb.channel('presence:'+state.pairId, { config:{ presence:{ key: state.me.id } } });
-    presenceChan.on('presence', { event:'sync' }, ()=>{
-      const st = presenceChan.presenceState();
-      // partner is online if any presence key that isn't me is present
-      const others = Object.keys(st).filter(k=>k!==state.me.id);
-      state.partner.online = others.length>0;
-      if(presenceSub) presenceSub();
-    }).subscribe(async (status)=>{
-      if(status==='SUBSCRIBED'){ await presenceChan.track({ at: Date.now() }); }
-    });
+    // presence is set up separately and defensively. It's behind a flag so that
+    // if it ever destabilizes realtime we can disable it without touching sync.
+    if(PRESENCE_ENABLED){ try { setupPresence(); } catch(e){} }
+  }
 
-    // --- stamp my last_seen now and every 45s while the app is open ---
-    stampSeen();
-    if(seenTimer) clearInterval(seenTimer);
-    seenTimer = setInterval(stampSeen, 45000);
-    // refresh the partner's last_seen periodically too (for the "last seen" text)
-    if(partnerSeenTimer) clearInterval(partnerSeenTimer);
-    partnerSeenTimer = setInterval(refreshPartnerSeen, 60000);
-    refreshPartnerSeen();
+  function setupPresence(){
+    if(!state.pairId || !state.me) return;
+    try {
+      presenceChan = sb.channel('presence:'+state.pairId, { config:{ presence:{ key: state.me.id } } });
+      presenceChan.on('presence', { event:'sync' }, ()=>{
+        try{
+          const st = presenceChan.presenceState();
+          const others = Object.keys(st).filter(k=>k!==state.me.id);
+          state.partner.online = others.length>0;
+          if(presenceSub) presenceSub();
+        }catch(e){}
+      }).subscribe((status)=>{
+        if(status==='SUBSCRIBED'){ presenceChan.track({ at: Date.now() }).catch(()=>{}); }
+      });
+    } catch(e){}
+    // last_seen stamping — each wrapped so a missing RPC can't throw upward
+    try { stampSeen(); } catch(e){}
+    try {
+      if(seenTimer) clearInterval(seenTimer);
+      seenTimer = setInterval(()=>{ try{ stampSeen(); }catch(e){} }, 45000);
+      if(partnerSeenTimer) clearInterval(partnerSeenTimer);
+      partnerSeenTimer = setInterval(()=>{ try{ refreshPartnerSeen(); }catch(e){} }, 60000);
+      refreshPartnerSeen();
+    } catch(e){}
   }
   async function stampSeen(){ try{ await sb.rpc('touch_last_seen'); }catch(e){} }
   async function refreshPartnerSeen(){
