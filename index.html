@@ -87,7 +87,8 @@ input,textarea{font-family:inherit}
 .avatar{width:40px;height:40px;border-radius:12px;background:var(--you-tag);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:600;font-size:18px;flex:0 0 auto}
 .topbar .who{flex:1;min-width:0}
 .topbar .who b{display:block;font-family:'Fraunces',serif;font-weight:600;font-size:18px;line-height:1.1}
-.topbar .who span{font-family:'Spline Sans Mono',monospace;font-size:11px;color:var(--you-tag)}
+.topbar .who span{font-family:'Spline Sans Mono',monospace;font-size:11px;color:var(--you-tag);display:inline-flex;align-items:center;gap:5px}
+.topbar .who span:not(.off)::before{content:'';width:7px;height:7px;border-radius:50%;background:#2f9e6b;display:inline-block}
 .topbar .who span.off{color:var(--soft)}
 .gear{flex:0 0 auto;width:38px;height:38px;border-radius:11px;border:1px solid var(--line);background:var(--paper-2);color:var(--ink);font-size:19px;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;transition:transform .12s,background .12s}
 .gear:active{transform:scale(.92)}
@@ -578,7 +579,7 @@ const Supa = (()=>{
 
   const state = {
     me:null,                                   // {id,name,initial}
-    partner:{name:'Friend', initial:'F', online:true},
+    partner:{name:'Friend', initial:'F', online:false, lastSeen:null},
     paired:false,
     pairId:null,
     theme:'slate',
@@ -594,7 +595,8 @@ const Supa = (()=>{
   function loadPrefs(){ try{ const r=localStorage.getItem(PKEY); if(r){ const d=JSON.parse(r); if(d.theme)state.theme=d.theme; if(d.prefs)Object.assign(state.prefs,d.prefs); if(d.custom)Object.assign(state.custom,d.custom);} }catch(e){} }
   loadPrefs();
 
-  let msgSub=null, noteSub=null, colorSub=null, pairSub=null, playSub=null;
+  let msgSub=null, noteSub=null, colorSub=null, pairSub=null, playSub=null, presenceSub=null;
+  let presenceChan=null, seenTimer=null, partnerSeenTimer=null;
   let realtimeChan=null;
 
   const initial = n => (n&&n[0]?n[0].toUpperCase():'?');
@@ -641,6 +643,35 @@ const Supa = (()=>{
       .on('postgres_changes',{event:'*',schema:'public',table:'play',filter:'pair_id=eq.'+state.pairId},
         p=>{ if(p.new&&p.new.data){ state.play=p.new.data; if(playSub)playSub(); } })
       .subscribe();
+
+    // --- presence: who is connected right now ---
+    presenceChan = sb.channel('presence:'+state.pairId, { config:{ presence:{ key: state.me.id } } });
+    presenceChan.on('presence', { event:'sync' }, ()=>{
+      const st = presenceChan.presenceState();
+      // partner is online if any presence key that isn't me is present
+      const others = Object.keys(st).filter(k=>k!==state.me.id);
+      state.partner.online = others.length>0;
+      if(presenceSub) presenceSub();
+    }).subscribe(async (status)=>{
+      if(status==='SUBSCRIBED'){ await presenceChan.track({ at: Date.now() }); }
+    });
+
+    // --- stamp my last_seen now and every 45s while the app is open ---
+    stampSeen();
+    if(seenTimer) clearInterval(seenTimer);
+    seenTimer = setInterval(stampSeen, 45000);
+    // refresh the partner's last_seen periodically too (for the "last seen" text)
+    if(partnerSeenTimer) clearInterval(partnerSeenTimer);
+    partnerSeenTimer = setInterval(refreshPartnerSeen, 60000);
+    refreshPartnerSeen();
+  }
+  async function stampSeen(){ try{ await sb.rpc('touch_last_seen'); }catch(e){} }
+  async function refreshPartnerSeen(){
+    if(!state.partner || !state.partner.id) return;
+    try{
+      const { data } = await sb.from('profiles').select('last_seen').eq('id',state.partner.id).single();
+      if(data){ state.partner.lastSeen = data.last_seen; if(presenceSub)presenceSub(); }
+    }catch(e){}
   }
 
   function rowToMsg(r){
@@ -798,6 +829,23 @@ const Supa = (()=>{
     },
     onPlay(cb){ playSub=cb; },
 
+    /* ---------- presence ---------- */
+    onPresence(cb){ presenceSub=cb; },
+    partnerStatus(){
+      const p=state.partner||{};
+      if(p.online) return { online:true, text:'online' };
+      if(p.lastSeen){
+        const mins=Math.floor((Date.now()-new Date(p.lastSeen).getTime())/60000);
+        if(mins<1) return { online:false, text:'active just now' };
+        if(mins<60) return { online:false, text:'active '+mins+'m ago' };
+        const hrs=Math.floor(mins/60);
+        if(hrs<24) return { online:false, text:'active '+hrs+'h ago' };
+        const days=Math.floor(hrs/24);
+        return { online:false, text:'active '+days+'d ago' };
+      }
+      return { online:false, text:'offline' };
+    },
+
     /* ---------- push notifications ---------- */
     async enablePush(){
       if(!('serviceWorker' in navigator) || !('PushManager' in window)) return { ok:false, msg:'This device doesn\u2019t support notifications.' };
@@ -885,7 +933,7 @@ const _MockUnused = (()=> {
     ]
   };
   const wait=(v,ms=180)=>new Promise(r=>setTimeout(()=>r(v),ms));
-  let msgSub=null, noteSub=null, playSub=null;
+  let msgSub=null, noteSub=null, playSub=null, presenceSub=null;
   const SKEY='caza:session:v1';
   function persist(){ try{ localStorage.setItem(SKEY, JSON.stringify({me:state.me,paired:state.paired,theme:state.theme,prefs:state.prefs,custom:state.custom,coloring:state.coloring,play:state.play})); }catch(e){} }
   function persistColor(){ persist(); }
@@ -927,6 +975,8 @@ const _MockUnused = (()=> {
     getPlay:()=>{ if(!state.play)state.play={ttt:null,dots:null,food:{items:[],votes:{},match:null}}; return state.play; },
     savePlay:()=>{ persist(); if(playSub)setTimeout(()=>playSub(),40); },
     onPlay:(cb)=>{ playSub=cb; },
+    onPresence:(cb)=>{ presenceSub=cb; },
+    partnerStatus:()=>({ online:true, text:'online' }),
     enablePush:()=>wait({ok:true},100),
     disablePush:()=>wait({ok:true},60),
     pushStatus:()=>wait(false,30),
@@ -1010,8 +1060,8 @@ function enterApp(){
   show('s-main');
   const p=Mock.state.partner;
   $('tb-name').textContent=p.name; $('tb-av').textContent=p.initial;
-  $('tb-status').textContent=p.online?'online':'last seen recently';
-  $('tb-status').className=p.online?'':'off';
+  updateStatus();
+  if(Mock.onPresence) Mock.onPresence(updateStatus);
   tab('chat');
   loadChat();
   Mock.onMessage((m,isUpdate)=>{
@@ -1032,6 +1082,12 @@ function refreshStage(){
 
 /* ---------------- tabs ---------------- */
 let curTab='chat';
+function updateStatus(){
+  const s = Mock.partnerStatus ? Mock.partnerStatus() : {online:false,text:''};
+  const el=$('tb-status'); if(!el)return;
+  el.textContent=s.text;
+  el.className=s.online?'':'off';
+}
 function tab(t){
   curTab=t;
   $('p-chat').classList.toggle('on',t==='chat');
