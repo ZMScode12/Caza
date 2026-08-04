@@ -647,6 +647,14 @@ const Supa = (()=>{
     return { id:r.id, from:(state.me&&r.sender===state.me.id)?'me':'them', text:r.body, ts:r.created_at, react:r.reaction };
   }
 
+  /* fire-and-forget: ask the Edge Function to push the partner. We don't await
+     it or let a failure affect the actual send. Replaces database webhooks. */
+  function notifyPartner(table, record){
+    try{
+      sb.functions.invoke('caza-push', { body:{ table, record } }).catch(()=>{});
+    }catch(e){}
+  }
+
   async function loadColoringOnce(){
     if(!state.pairId)return;
     const { data } = await sb.from('coloring').select('data').eq('pair_id',state.pairId).single();
@@ -736,6 +744,7 @@ const Supa = (()=>{
       const { data, error } = await sb.from('messages')
         .insert({ pair_id:state.pairId, sender:state.me.id, body:text }).select().single();
       if(error) throw error;
+      notifyPartner('messages', { pair_id:state.pairId, sender:state.me.id, body:text });
       return rowToMsg(data);
     },
     async reactTo(id,emoji){
@@ -756,6 +765,7 @@ const Supa = (()=>{
     async saveNote(note){
       const payload={ pair_id:state.pairId, kind:note.kind||'text', title:note.title||'',
         body:note.body||'', items:note.items||[], updated_by:state.me.id, updated_at:new Date().toISOString() };
+      notifyPartner('notes', { pair_id:state.pairId, updated_by:state.me.id });
       if(note.id){
         const { data } = await sb.from('notes').update(payload).eq('id',note.id).select().single();
         return data;
@@ -784,6 +794,7 @@ const Supa = (()=>{
     async savePlay(){
       if(!state.pairId)return;
       await sb.from('play').upsert({ pair_id:state.pairId, data:state.play, updated_at:new Date().toISOString() });
+      notifyPartner('play', { pair_id:state.pairId, sender:state.me.id });
     },
     onPlay(cb){ playSub=cb; },
 
