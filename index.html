@@ -175,9 +175,9 @@ input,textarea{font-family:inherit}
 /* ---------- bottom nav ---------- */
 .nav{display:flex;background:var(--paper);border-top:1px solid var(--line);padding-bottom:var(--safe-bot)}
 .nav button{flex:1;background:none;border:none;padding:11px 0 9px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--soft);font-size:11px;font-weight:500}
-.nav button .ic{font-size:20px;line-height:1}
-.nav button .ic.reddot{position:relative}
-.nav button .ic.reddot::after{content:'';position:absolute;top:-2px;right:-5px;width:7px;height:7px;border-radius:50%;background:#e0454a;border:1.5px solid var(--paper)}
+.nav button .ic{font-size:20px;line-height:1;position:relative}
+.nav button .ndot{position:absolute;top:-3px;right:-6px;width:8px;height:8px;border-radius:50%;background:#e84a9a;border:1.5px solid var(--paper);display:none}
+.nav button .ndot.on{display:block}
 .nav button.on{color:var(--accent)}
 .nav button .badge{position:absolute;top:6px;margin-left:20px;background:var(--accent);color:#fff;font-size:9px;min-width:15px;height:15px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Spline Sans Mono',monospace}
 
@@ -247,7 +247,12 @@ html[data-theme="dusk"] .note{background:var(--you-bubble);color:var(--you-ink)}
 .set-cancel{width:100%;padding:14px;border:none;border-radius:14px;background:none;color:var(--soft);font-weight:600;font-size:15px;margin-top:6px}
 
 /* ---------- coloring ---------- */
-.color-gallery{flex:1;overflow:auto;padding:8px 14px calc(20px + var(--safe-bot));display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.color-gallery{flex:1;overflow:auto;padding:8px 14px calc(20px + var(--safe-bot));display:block}
+.gal-head{display:flex;justify-content:space-between;align-items:center;font-family:'Fraunces',serif;font-weight:600;font-size:16px;margin:14px 2px 8px}
+.gal-head:first-child{margin-top:2px}
+.gal-count{font-family:'Spline Sans Mono',monospace;font-size:12px;color:var(--soft);font-weight:400}
+.gal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cs-done.waiting{background:var(--soft);opacity:.85}
 .color-card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;cursor:pointer;position:relative}
 .color-card svg{width:100%;height:120px;display:block;background:#fff}
 .color-card .cc-label{padding:9px 11px;font-family:'Fraunces',serif;font-weight:600;font-size:14px}
@@ -279,6 +284,31 @@ html[data-theme="dusk"] .note{background:var(--you-bubble);color:var(--you-ink)}
 .game-status{flex:1;text-align:center;font-family:'Spline Sans Mono',monospace;font-size:13px;color:var(--ink)}
 
 /* tic-tac-toe */
+.bg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.bg-sw{aspect-ratio:1;border-radius:11px;border:2px solid var(--line);cursor:pointer;position:relative;overflow:hidden}
+.bg-sw.on{border-color:var(--accent)}
+.bg-sw.on::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+/* app backgrounds (applied to .app) */
+.app[data-appbg="warm"]{background:linear-gradient(160deg,#fbeee4,#f4e6ec)}
+.app[data-appbg="cool"]{background:linear-gradient(160deg,#e6eefb,#eae4f6)}
+.app[data-appbg="mint"]{background:linear-gradient(160deg,#e4f6ec,#e4f0f4)}
+.app[data-appbg="dusk"]{background:linear-gradient(160deg,#2a2540,#3a2a3a)}
+.app[data-appbg="peach"]{background:linear-gradient(160deg,#ffeede,#ffe4e8)}
+.app[data-appbg="slate"]{background:linear-gradient(160deg,#eceef2,#e2e6ee)}
+.app[data-appbg="rose"]{background:linear-gradient(160deg,#fbe4ef,#f6e4f0)}
+/* chat wallpapers (applied to #chatThread) */
+#chatThread[data-chatbg="warm"]{background:linear-gradient(160deg,#fbeee4,#f4e6ec)}
+#chatThread[data-chatbg="cool"]{background:linear-gradient(160deg,#e6eefb,#eae4f6)}
+#chatThread[data-chatbg="mint"]{background:linear-gradient(160deg,#e4f6ec,#e4f0f4)}
+#chatThread[data-chatbg="dots"]{background-color:var(--paper);background-image:radial-gradient(var(--line) 1.2px,transparent 1.2px);background-size:18px 18px}
+#chatThread[data-chatbg="peach"]{background:linear-gradient(160deg,#ffeede,#ffe4e8)}
+#chatThread[data-chatbg="hearts"]{background-color:#fbe9f1;background-image:radial-gradient(circle at 50% 40%, rgba(232,74,154,.10) 3px, transparent 4px);background-size:26px 26px}
+#chatThread[data-chatbg="rose"]{background:linear-gradient(160deg,#fbe4ef,#f6e4f0)}
+.win-tally{display:flex;justify-content:center;gap:16px;padding:8px 0 2px;font-family:'Spline Sans Mono',monospace;font-size:12px}
+.win-tally .wt{display:flex;align-items:center;gap:5px;color:var(--soft)}
+.win-tally .wt b{font-size:15px}
+.win-tally .wt.me b{color:var(--accent)}
+.win-tally .wt.you b{color:var(--you-tag)}
 .ttt-pick{display:flex;align-items:center;justify-content:center;gap:10px;margin:14px auto 0}
 .ttt-mk{width:40px;height:40px;border-radius:11px;border:2px solid var(--line);background:#fff;font-size:20px;font-weight:700;font-family:'Fraunces',serif;color:var(--soft)}
 .ttt-mk.on{border-color:var(--accent);color:var(--accent)}
@@ -291,7 +321,7 @@ html[data-theme="dusk"] .note{background:var(--you-bubble);color:var(--you-ink)}
 
 /* dots & boxes */
 .dots-board-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:16px}
-#dotsBoard{width:min(88vw,340px);height:min(88vw,340px)}
+#dotsBoard{width:min(94vw,420px);height:min(94vw,420px)}
 .db-dot{fill:var(--soft)}
 .db-line{stroke:var(--line);stroke-width:6;stroke-linecap:round;cursor:pointer}
 .db-line.on-me{stroke:var(--accent)}
@@ -337,6 +367,22 @@ html[data-theme="dusk"] .note{background:var(--you-bubble);color:var(--you-ink)}
 .wheel-spin{padding:13px 30px;border:none;border-radius:14px;background:var(--accent);color:#fff;font-weight:600;font-size:16px}
 
 .hidden{display:none!important}
+.typing-row{padding:2px 16px 6px;display:flex}
+.typing-bubble{display:inline-flex;align-items:center;gap:4px;background:var(--paper-2);border:1px solid var(--line);border-radius:16px;padding:9px 13px}
+.msg{transition:transform .15s}
+.msg.swiping{transition:none}
+.msg .reply-quote{display:block;font-size:12px;padding:5px 9px;margin:-2px -2px 5px;border-left:3px solid var(--accent-soft);background:rgba(0,0,0,.05);border-radius:7px;opacity:.85}
+.msg.me .reply-quote{border-left-color:rgba(255,255,255,.6);background:rgba(255,255,255,.14)}
+.msg .reply-quote b{display:block;font-size:11px;opacity:.8;margin-bottom:1px}
+.reply-preview{display:flex;align-items:center;gap:10px;padding:8px 14px;border-top:1px solid var(--line);background:var(--paper-2)}
+.reply-preview .rp-body{flex:1;min-width:0;font-size:13px;border-left:3px solid var(--accent);padding-left:9px}
+.reply-preview .rp-to{display:block;font-size:11px;color:var(--accent);font-weight:600}
+.reply-preview .rp-text{display:block;color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.reply-preview .rp-x{background:none;border:none;color:var(--soft);font-size:16px;flex:0 0 auto}
+.typing-bubble i{width:7px;height:7px;border-radius:50%;background:var(--soft);display:inline-block;animation:typedot 1.2s infinite ease-in-out}
+.typing-bubble i:nth-child(2){animation-delay:.18s}
+.typing-bubble i:nth-child(3){animation-delay:.36s}
+@keyframes typedot{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-4px);opacity:1}}
 </style>
 </head>
 <body>
@@ -393,8 +439,15 @@ html[data-theme="dusk"] .note{background:var(--you-bubble);color:var(--you-ink)}
       <div class="pane on" id="p-chat">
         <div class="seam"></div>
         <div class="thread-wrap" id="chatThread"></div>
+        <div class="typing-row" id="typingRow" style="display:none">
+          <span class="typing-bubble"><i></i><i></i><i></i></span>
+        </div>
+        <div class="reply-preview" id="replyPreview" style="display:none">
+          <div class="rp-body"><span class="rp-to" id="rpTo"></span><span class="rp-text" id="rpText"></span></div>
+          <button class="rp-x" onclick="cancelReply()">✕</button>
+        </div>
         <div class="composer">
-          <textarea id="chatInput" rows="1" placeholder="Message…" oninput="composerGrow(this)" onkeydown="chatKey(event)"></textarea>
+          <textarea id="chatInput" rows="1" placeholder="Message…" oninput="composerGrow(this);onTypingInput()" onkeydown="chatKey(event)"></textarea>
           <button class="send" id="chatSend" onclick="sendMsg()" disabled>↑</button>
         </div>
       </div>
@@ -413,7 +466,7 @@ html[data-theme="dusk"] .note{background:var(--you-bubble);color:var(--you-ink)}
           <div class="cs-top">
             <button class="cs-back" onclick="colorExit()">‹ Gallery</button>
             <span class="cs-name" id="csName"></span>
-            <button class="cs-done" onclick="colorComplete()">Mark done</button>
+            <button class="cs-done" id="colorDoneBtn" onclick="colorComplete()">Mark done</button>
           </div>
           <div class="cs-canvas-wrap"><svg id="colorSvg" class="cs-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet"></svg></div>
           <div class="cs-palette" id="csPalette"></div>
@@ -433,7 +486,7 @@ html[data-theme="dusk"] .note{background:var(--you-bubble);color:var(--you-ink)}
           </button>
           <button class="play-card" onclick="openFood()">
             <span class="pc-emoji">🍽️</span>
-            <span class="pc-txt"><b>Food Match</b><i>Swipe to decide together</i></span>
+            <span class="pc-txt"><b>Decider</b><i>Swipe to decide together</i></span>
           </button>
         </div>
 
@@ -445,6 +498,7 @@ html[data-theme="dusk"] .note{background:var(--you-bubble);color:var(--you-ink)}
             <button class="cs-done" onclick="resetGame('ttt')">New</button>
           </div>
           <div class="ttt-pick" id="tttPick"></div>
+          <div class="win-tally" id="tttTally"></div>
           <div class="ttt-board" id="tttBoard"></div>
         </div>
 
@@ -455,6 +509,7 @@ html[data-theme="dusk"] .note{background:var(--you-bubble);color:var(--you-ink)}
             <span class="game-status" id="dotsStatus"></span>
             <button class="cs-done" onclick="resetGame('dots')">New</button>
           </div>
+          <div class="win-tally" id="dotsTally"></div>
           <div class="dots-board-wrap"><svg id="dotsBoard" viewBox="0 0 320 320" preserveAspectRatio="xMidYMid meet"></svg></div>
           <div class="dots-score" id="dotsScore"></div>
         </div>
@@ -463,7 +518,7 @@ html[data-theme="dusk"] .note{background:var(--you-bubble);color:var(--you-ink)}
         <div id="foodWrap" class="game-wrap" style="display:none">
           <div class="game-top">
             <button class="cs-back" onclick="closeFood()">‹ Play</button>
-            <span class="game-status">Food Match</span>
+            <span class="game-status">Decider</span>
             <button class="cs-done" onclick="resetFood()">Reset</button>
           </div>
           <div id="foodStage"></div>
@@ -472,10 +527,10 @@ html[data-theme="dusk"] .note{background:var(--you-bubble);color:var(--you-ink)}
     </div>
 
     <div class="nav">
-      <button class="on" id="nav-chat" onclick="tab('chat')"><span class="ic reddot">💬</span>Chat<span class="badge hidden" id="chatBadge">0</span></button>
-      <button id="nav-notes" onclick="tab('notes')"><span class="ic reddot">📝</span>Notes</button>
-      <button id="nav-color" onclick="tab('color')"><span class="ic reddot">🎨</span>Color</button>
-      <button id="nav-play" onclick="tab('play')"><span class="ic reddot">🎮</span>Play</button>
+      <button class="on" id="nav-chat" onclick="tab('chat')"><span class="ic">💬<i class="ndot" id="dot-chat"></i></span>Chat<span class="badge hidden" id="chatBadge">0</span></button>
+      <button id="nav-notes" onclick="tab('notes')"><span class="ic">📝<i class="ndot" id="dot-notes"></i></span>Notes</button>
+      <button id="nav-color" onclick="tab('color')"><span class="ic">🎨<i class="ndot" id="dot-color"></i></span>Color</button>
+      <button id="nav-play" onclick="tab('play')"><span class="ic">🎮<i class="ndot" id="dot-play"></i></span>Play</button>
     </div>
 
     <!-- note editor -->
@@ -536,6 +591,14 @@ html[data-theme="dusk"] .note{background:var(--you-bubble);color:var(--you-ink)}
           </div>
           <div class="cc-row"><span>Your color</span><input type="color" id="ccMe" onchange="setCustomColor('me',this.value)"></div>
           <div class="cc-row"><span>Friend's color</span><input type="color" id="ccYou" onchange="setCustomColor('you',this.value)"></div>
+        </div>
+        <div class="set-block">
+          <div class="set-label">App background</div>
+          <div class="bg-grid" id="appBgGrid"></div>
+        </div>
+        <div class="set-block">
+          <div class="set-label">Chat wallpaper</div>
+          <div class="bg-grid" id="chatBgGrid"></div>
         </div>
         <div class="set-block">
           <div class="set-label">Notifications</div>
@@ -602,7 +665,7 @@ const Supa = (()=>{
   function loadPrefs(){ try{ const r=localStorage.getItem(PKEY); if(r){ const d=JSON.parse(r); if(d.theme)state.theme=d.theme; if(d.prefs)Object.assign(state.prefs,d.prefs); if(d.custom)Object.assign(state.custom,d.custom);} }catch(e){} }
   loadPrefs();
 
-  let msgSub=null, noteSub=null, colorSub=null, pairSub=null, playSub=null, presenceSub=null;
+  let msgSub=null, noteSub=null, colorSub=null, pairSub=null, playSub=null, presenceSub=null, typingSub=null;
   let presenceChan=null, seenTimer=null, partnerSeenTimer=null;
   let realtimeChan=null;
 
@@ -649,6 +712,8 @@ const Supa = (()=>{
         p=>{ if(p.new&&p.new.data){ state.coloring=p.new.data; if(colorSub)colorSub(); } })
       .on('postgres_changes',{event:'*',schema:'public',table:'play',filter:'pair_id=eq.'+state.pairId},
         p=>{ if(p.new&&p.new.data){ state.play=p.new.data; if(playSub)playSub(); } })
+      .on('broadcast',{event:'typing'},
+        m=>{ try{ if(m.payload && m.payload.from!==state.me.id && typingSub) typingSub(!!m.payload.typing); }catch(e){} })
       .subscribe();
 
     // presence is set up separately and defensively. It's behind a flag so that
@@ -691,7 +756,7 @@ const Supa = (()=>{
   }
 
   function rowToMsg(r){
-    return { id:r.id, from:(state.me&&r.sender===state.me.id)?'me':'them', text:r.body, ts:r.created_at, react:r.reaction };
+    return { id:r.id, from:(state.me&&r.sender===state.me.id)?'me':'them', text:r.body, ts:r.created_at, react:r.reaction, reply:r.reply||null };
   }
 
   /* fire-and-forget: ask the Edge Function to push the partner. We don't await
@@ -789,9 +854,9 @@ const Supa = (()=>{
       const { data } = await sb.from('messages').select('*').eq('pair_id',state.pairId).order('created_at',{ascending:true}).limit(500);
       return (data||[]).map(rowToMsg);
     },
-    async sendMessage(text){
+    async sendMessage(text, reply){
       const { data, error } = await sb.from('messages')
-        .insert({ pair_id:state.pairId, sender:state.me.id, body:text }).select().single();
+        .insert({ pair_id:state.pairId, sender:state.me.id, body:text, reply:reply||null }).select().single();
       if(error) throw error;
       notifyPartner('messages', { pair_id:state.pairId, sender:state.me.id, body:text });
       return rowToMsg(data);
@@ -834,7 +899,17 @@ const Supa = (()=>{
       const c=this.getColoring(); c.fills[sheet]=c.fills[sheet]||{}; c.fills[sheet][region]=color; this._saveColoring();
     },
     setActive(sheet){ this.getColoring().active=sheet; this._saveColoring(); },
-    completeSheet(sheet){ const c=this.getColoring(); c.done[sheet]=true; c.active=null; this._saveColoring(); },
+    completeSheet(sheet){ const c=this.getColoring(); c.done[sheet]=true; c.active=null; if(c.agree)delete c.agree[sheet]; this._saveColoring(); },
+    proposeDone(sheet,side){
+      const c=this.getColoring(); c.agree=c.agree||{}; c.agree[sheet]=c.agree[sheet]||{a:false,b:false};
+      c.agree[sheet][side]=true;
+      const both=c.agree[sheet].a && c.agree[sheet].b;
+      if(both){ c.done[sheet]=true; c.active=null; delete c.agree[sheet]; }
+      this._saveColoring();
+      return { done:both };
+    },
+    unproposeDone(sheet,side){ const c=this.getColoring(); if(c.agree&&c.agree[sheet]){ c.agree[sheet][side]=false; this._saveColoring(); } },
+    agreeState(sheet){ const c=this.getColoring(); return (c.agree&&c.agree[sheet])||{a:false,b:false}; },
 
     onColoring(cb){ colorSub=cb; },
 
@@ -850,6 +925,15 @@ const Supa = (()=>{
 
     /* ---------- presence ---------- */
     onPresence(cb){ presenceSub=cb; },
+
+    /* ---------- typing indicator (realtime broadcast, no table) ---------- */
+    sendTyping(isTyping){
+      try{
+        if(!realtimeChan) return;
+        realtimeChan.send({ type:'broadcast', event:'typing', payload:{ from: state.me.id, typing: !!isTyping } });
+      }catch(e){}
+    },
+    onTyping(cb){ typingSub=cb; },
     partnerStatus(){
       const p=state.partner||{};
       if(p.online) return { online:true, text:'online' };
@@ -952,7 +1036,7 @@ const _MockUnused = (()=> {
     ]
   };
   const wait=(v,ms=180)=>new Promise(r=>setTimeout(()=>r(v),ms));
-  let msgSub=null, noteSub=null, playSub=null, presenceSub=null;
+  let msgSub=null, noteSub=null, playSub=null, presenceSub=null, typingCb=null;
   const SKEY='caza:session:v1';
   function persist(){ try{ localStorage.setItem(SKEY, JSON.stringify({me:state.me,paired:state.paired,theme:state.theme,prefs:state.prefs,custom:state.custom,coloring:state.coloring,play:state.play})); }catch(e){} }
   function persistColor(){ persist(); }
@@ -977,9 +1061,9 @@ const _MockUnused = (()=> {
       return wait(state.inviteCode); },
     joinCode:(code)=>{ if(code&&(code==='FRIEND'||code.length>=5)){ state.paired=true; persist(); return wait({ok:true}); } return wait({ok:false,msg:'That code doesn\u2019t match anyone.'}); },
     getMessages:()=>wait(state.messages.slice()),
-    sendMessage:(text)=>{ const m={id:'m'+Date.now(),from:'me',text,ts:new Date().toISOString(),react:null}; state.messages.push(m);
+    sendMessage:(text,reply)=>{ const m={id:'m'+Date.now(),from:'me',text,ts:new Date().toISOString(),react:null,reply:reply||null}; state.messages.push(m);
       // simulate an occasional reply
-      if(Math.random()<0.5)setTimeout(()=>{ const r={id:'m'+Date.now(),from:'them',text:pickReply(text),ts:new Date().toISOString(),react:null}; state.messages.push(r); if(msgSub)msgSub(r); }, 1400+Math.random()*1600);
+      if(Math.random()<0.5)setTimeout(()=>{ const r={id:'m'+Date.now(),from:'them',text:pickReply(text),ts:new Date().toISOString(),react:null,reply:null}; state.messages.push(r); if(msgSub)msgSub(r); }, 1400+Math.random()*1600);
       return wait(m,80); },
     reactTo:(id,emoji)=>{ const m=state.messages.find(x=>x.id===id); if(m)m.react=emoji; return wait(true,60); },
     onMessage:(cb)=>{ msgSub=cb; },
@@ -990,12 +1074,24 @@ const _MockUnused = (()=> {
     getColoring:()=>{ if(!state.coloring)state.coloring={fills:{},done:{},active:null}; return state.coloring; },
     setFill:(sheet,region,color)=>{ const c=Mock.getColoring(); c.fills[sheet]=c.fills[sheet]||{}; c.fills[sheet][region]=color; persistColor(); },
     setActive:(sheet)=>{ Mock.getColoring().active=sheet; persistColor(); },
-    completeSheet:(sheet)=>{ const c=Mock.getColoring(); c.done[sheet]=true; c.active=null; persistColor(); },
+    completeSheet:(sheet)=>{ const c=Mock.getColoring(); c.done[sheet]=true; c.active=null; if(c.agree)delete c.agree[sheet]; persistColor(); },
+    proposeDone:(sheet,side)=>{
+      const c=Mock.getColoring(); c.agree=c.agree||{}; c.agree[sheet]=c.agree[sheet]||{a:false,b:false};
+      c.agree[sheet][side]=true;
+      const both=c.agree[sheet].a && c.agree[sheet].b;
+      if(both){ c.done[sheet]=true; c.active=null; delete c.agree[sheet]; }
+      persistColor();
+      return { done:both };
+    },
+    unproposeDone:(sheet,side)=>{ const c=Mock.getColoring(); if(c.agree&&c.agree[sheet]){ c.agree[sheet][side]=false; persistColor(); } },
+    agreeState:(sheet)=>{ const c=Mock.getColoring(); return (c.agree&&c.agree[sheet])||{a:false,b:false}; },
     getPlay:()=>{ if(!state.play)state.play={ttt:null,dots:null,food:{items:[],votes:{},match:null}}; return state.play; },
     savePlay:()=>{ persist(); if(playSub)setTimeout(()=>playSub(),40); },
     onPlay:(cb)=>{ playSub=cb; },
     onPresence:(cb)=>{ presenceSub=cb; },
     partnerStatus:()=>({ online:true, text:'online' }),
+    sendTyping:()=>{},
+    onTyping:(cb)=>{ typingCb=cb; },
     enablePush:()=>wait({ok:true},100),
     disablePush:()=>wait({ok:true},60),
     pushStatus:()=>wait(false,30),
@@ -1080,27 +1176,70 @@ function enterApp(){
   const p=Mock.state.partner;
   $('tb-name').textContent=p.name; $('tb-av').textContent=p.initial;
   updateStatus();
+  applyBackgrounds();
   if(Mock.onPresence) Mock.onPresence(updateStatus);
   tab('chat');
   loadChat();
   Mock.onMessage((m,isUpdate)=>{
     if(isUpdate){ if(CHAT_LOADED)loadChat(); return; }
-    appendMsg(m,true); bumpBadgeIfHidden();
+    appendMsg(m,true); bumpBadgeIfHidden(); markActivity('chat'); showPartnerTyping(false);
   });
+  if(Mock.onTyping) Mock.onTyping((on)=>{ if(curTab==='chat') showPartnerTyping(on); });
   // live updates from the other person (no-ops on the mock, real on Supabase)
-  if(Mock.onNote) Mock.onNote(()=>{ if(curTab==='notes'){ NOTES_LOADED=false; loadNotes(); } });
-  if(Mock.onColoring) Mock.onColoring(()=>{ if(curTab==='color'){ if($('colorStage').style.display!=='none' && curSheet){ refreshStage(); } else { loadGallery(); } } });
-  if(Mock.onPlay) Mock.onPlay(()=>{ onPlayUpdate(); });
+  if(Mock.onNote) Mock.onNote(()=>{ markActivity('notes'); if(curTab==='notes'){ NOTES_LOADED=false; loadNotes(); } });
+  if(Mock.onColoring) Mock.onColoring(()=>{ markActivity('color'); if(curTab==='color'){ if($('colorStage').style.display!=='none' && curSheet){ refreshStage(); } else { loadGallery(); } } });
+  if(Mock.onPlay) Mock.onPlay(()=>{ markActivity('play'); onPlayUpdate(); });
 }
 function refreshStage(){
   if(!curSheet)return;
   const c=Mock.getColoring();
   $('colorSvg').innerHTML=sheetSvg(curSheet,c.fills[curSheet.id],false);
+  // if partner just completed via agreement, bounce back to gallery
+  if(c.done[curSheet.id]){ toast('Both agreed \u2014 sheet complete'); curSheet=null; loadGallery(); return; }
+  updateDoneBar();
 }
 
 
 /* ---------------- tabs ---------------- */
 let curTab='chat';
+function markActivity(which){
+  if(curTab===which)return;            // you're already looking at it
+  const d=$('dot-'+which); if(d)d.classList.add('on');
+}
+function clearActivity(which){
+  const d=$('dot-'+which); if(d)d.classList.remove('on');
+}
+/* --- typing indicator --- */
+let typingSendTimer=null, typingClearTimer=null, iAmTyping=false;
+function onTypingInput(){
+  if(!Mock.sendTyping)return;
+  if(!iAmTyping){ iAmTyping=true; Mock.sendTyping(true); }
+  clearTimeout(typingSendTimer);
+  typingSendTimer=setTimeout(()=>{ iAmTyping=false; Mock.sendTyping(false); }, 2500);
+}
+function showPartnerTyping(on){
+  const row=$('typingRow'); if(!row)return;
+  if(on){
+    row.style.display='flex';
+    const th=$('chatThread'); if(th) th.scrollTop=th.scrollHeight;
+    clearTimeout(typingClearTimer);
+    // auto-hide if no follow-up within 4s (in case the "stopped" event is missed)
+    typingClearTimer=setTimeout(()=>{ row.style.display='none'; }, 4000);
+  } else {
+    clearTimeout(typingClearTimer);
+    row.style.display='none';
+  }
+}
+let replyingTo=null;
+function startReply(m){
+  replyingTo={ id:m.id, from:m.from, text:m.text };
+  $('rpTo').textContent='Replying to '+(m.from==='me'?'you':theirName());
+  $('rpText').textContent=m.text;
+  $('replyPreview').style.display='flex';
+  const inp=$('chatInput'); if(inp)inp.focus();
+  if(navigator.vibrate)try{navigator.vibrate(6);}catch(e){}
+}
+function cancelReply(){ replyingTo=null; $('replyPreview').style.display='none'; }
 function updateStatus(){
   const s = Mock.partnerStatus ? Mock.partnerStatus() : {online:false,text:''};
   const el=$('tb-status'); if(!el)return;
@@ -1109,6 +1248,7 @@ function updateStatus(){
 }
 function tab(t){
   curTab=t;
+  clearActivity(t);
   $('p-chat').classList.toggle('on',t==='chat');
   $('p-notes').classList.toggle('on',t==='notes');
   $('p-color').classList.toggle('on',t==='color');
@@ -1155,13 +1295,35 @@ function renderMsg(m,grouped,showName){
   el.className='msg '+(m.from==='me'?'me':'you')+(grouped?' grp':'');
   el.dataset.id=m.id;
   const nameTag=showName?'<span class="name">'+esc(nameFor(m.from))+'</span>':'';
-  el.innerHTML=nameTag+esc(m.text)+'<span class="t">'+fmtTime(m.ts)+'</span>'+(m.react?'<span class="react">'+m.react+'</span>':'');
-  let press;
-  el.addEventListener('touchstart',e=>{ press=setTimeout(()=>openReactBar(el,m.id),380); },{passive:true});
-  el.addEventListener('touchend',()=>clearTimeout(press));
-  el.addEventListener('touchmove',()=>clearTimeout(press));
-  el.addEventListener('dblclick',()=>openReactBar(el,m.id));
+  const replyTag=m.reply?'<span class="reply-quote"><b>'+esc(m.reply.from==='me'?myName():theirName())+'</b>'+esc(m.reply.text.length>90?m.reply.text.slice(0,89)+'\u2026':m.reply.text)+'</span>':'';
+  el.innerHTML=nameTag+replyTag+esc(m.text)+'<span class="t">'+fmtTime(m.ts)+'</span>'+(m.react?'<span class="react">'+m.react+'</span>':'');
+  attachMsgGestures(el,m);
   return el;
+}
+function attachMsgGestures(el,m){
+  let press=null, sx=0, sy=0, moved=false, swiping=false;
+  const start=(x,y)=>{ sx=x; sy=y; moved=false; swiping=false; press=setTimeout(()=>{ if(!moved){ openReactBar(el,m.id); } }, 350); };
+  const move=(x,y)=>{
+    const dx=x-sx, dy=y-sy;
+    if(Math.abs(dx)>8||Math.abs(dy)>8){ moved=true; clearTimeout(press); }
+    // swipe right to reply (only a mostly-horizontal rightward drag)
+    if(dx>12 && Math.abs(dy)<40){ swiping=true; el.style.transform='translateX('+Math.min(dx,70)+'px)'; el.classList.add('swiping'); }
+  };
+  const end=(x)=>{
+    clearTimeout(press);
+    const dx=x-sx;
+    el.style.transform=''; el.classList.remove('swiping');
+    if(swiping && dx>52){ startReply(m); }
+  };
+  el.addEventListener('touchstart',e=>{ const t=e.touches[0]; start(t.clientX,t.clientY); },{passive:true});
+  el.addEventListener('touchmove',e=>{ const t=e.touches[0]; move(t.clientX,t.clientY); },{passive:true});
+  el.addEventListener('touchend',e=>{ const t=(e.changedTouches&&e.changedTouches[0])||{clientX:sx}; end(t.clientX); });
+  // desktop fallbacks
+  el.addEventListener('dblclick',()=>openReactBar(el,m.id));
+  let mdown=false;
+  el.addEventListener('mousedown',e=>{ mdown=true; start(e.clientX,e.clientY); });
+  el.addEventListener('mousemove',e=>{ if(mdown)move(e.clientX,e.clientY); });
+  el.addEventListener('mouseup',e=>{ if(mdown){ mdown=false; end(e.clientX); } });
 }
 function appendMsg(m,animate){
   const wrap=$('chatThread');
@@ -1182,32 +1344,47 @@ function chatKey(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendM
 async function sendMsg(){
   const inp=$('chatInput'); const text=inp.value.trim(); if(!text)return;
   inp.value=''; inp.style.height='auto'; $('chatSend').disabled=true;
-  const m=await Mock.sendMessage(text);
+  if(iAmTyping){ iAmTyping=false; clearTimeout(typingSendTimer); if(Mock.sendTyping)Mock.sendTyping(false); }
+  const reply=replyingTo; cancelReply();
+  const m=await Mock.sendMessage(text, reply);
   appendMsg(m,true);
 }
 let reactBarEl=null;
 function openReactBar(msgEl,id){
   closeReactBar();
+  if(navigator.vibrate)try{navigator.vibrate(8);}catch(e){}
+  const cur=(Mock.state.messages.find(x=>x.id===id)||{}).react;
   const bar=document.createElement('div'); bar.className='react-bar';
   ['\u2764\uFE0F','\u{1F602}','\u{1F44D}','\u{1F62E}','\u{1F622}','\u{1F525}'].forEach(e=>{
-    const b=document.createElement('button'); b.textContent=e; b.onclick=ev=>{ ev.stopPropagation(); doReact(id,e); }; bar.appendChild(b);
+    const b=document.createElement('button'); b.textContent=e;
+    if(cur===e) b.classList.add('picked');
+    const fire=ev=>{ ev.preventDefault(); ev.stopPropagation(); doReact(id,e); };
+    b.addEventListener('touchend',fire); b.addEventListener('click',fire);
+    bar.appendChild(b);
   });
   $('p-chat').appendChild(bar);
   const r=msgEl.getBoundingClientRect(), pr=$('p-chat').getBoundingClientRect();
   bar.style.top=(r.top-pr.top-52)+'px';
-  bar.style.left=Math.max(8,Math.min(pr.width-220, r.left-pr.left))+'px';
+  bar.style.left=Math.max(8,Math.min(pr.width-236, r.left-pr.left))+'px';
   reactBarEl=bar;
-  setTimeout(()=>document.addEventListener('touchstart',closeReactBarOnce,{once:true}),50);
-  setTimeout(()=>document.addEventListener('click',closeReactBarOnce,{once:true}),50);
+  setTimeout(()=>{ document.addEventListener('touchstart',closeReactBarOnce,{once:true,passive:true}); document.addEventListener('click',closeReactBarOnce,{once:true}); },60);
 }
 function closeReactBarOnce(){ closeReactBar(); }
 function closeReactBar(){ if(reactBarEl){ reactBarEl.remove(); reactBarEl=null; } }
 async function doReact(id,emoji){
+  const msg=Mock.state.messages.find(x=>x.id===id);
+  const isUndo = msg && msg.react===emoji;   // tapping the same one removes it
+  const val = isUndo ? null : emoji;
   closeReactBar();
-  await Mock.reactTo(id,emoji);
+  await Mock.reactTo(id,val);
   const el=$('chatThread').querySelector('[data-id="'+id+'"]');
-  if(el){ let r=el.querySelector('.react'); if(!r){ r=document.createElement('span'); r.className='react'; el.appendChild(r); } r.textContent=emoji;
-    r.animate([{transform:'scale(0)'},{transform:'scale(1.3)'},{transform:'scale(1)'}],{duration:260}); }
+  if(el){
+    let r=el.querySelector('.react');
+    if(!val){ if(r)r.remove(); return; }
+    if(!r){ r=document.createElement('span'); r.className='react'; el.appendChild(r); }
+    r.textContent=val;
+    r.animate([{transform:'scale(0)'},{transform:'scale(1.3)'},{transform:'scale(1)'}],{duration:260});
+  }
 }
 
 /* ---------------- notes ---------------- */
@@ -1306,48 +1483,66 @@ async function noteSave(){
 /* ---------------- coloring ---------------- */
 const COLOR_PALETTE=['#e05a5a','#e0913a','#e6c84f','#6fbf73','#4f9bd9','#7d6bd0','#d06bb0','#8a5a3a','#2b2b2b','#ffffff'];
 const SHEETS=[
-  {id:'house', name:'Little house', regions:[
-    ['<polygon data-r="roof" points="20,45 50,20 80,45"/>'],
-    ['<rect data-r="wall" x="28" y="45" width="44" height="38"/>'],
-    ['<rect data-r="door" x="44" y="60" width="12" height="23"/>'],
-    ['<rect data-r="win1" x="33" y="52" width="8" height="8"/>'],
-    ['<rect data-r="win2" x="59" y="52" width="8" height="8"/>'],
-    ['<circle data-r="sun" cx="80" cy="18" r="7"/>'],
-  ]},
-  {id:'flower', name:'Flower', regions:[
-    ['<circle data-r="p1" cx="50" cy="30" r="12"/>'],
-    ['<circle data-r="p2" cx="32" cy="45" r="12"/>'],
-    ['<circle data-r="p3" cx="68" cy="45" r="12"/>'],
-    ['<circle data-r="p4" cx="40" cy="62" r="12"/>'],
-    ['<circle data-r="p5" cx="60" cy="62" r="12"/>'],
-    ['<circle data-r="mid" cx="50" cy="48" r="9"/>'],
-    ['<rect data-r="stem" x="48" y="57" width="4" height="30"/>'],
-  ]},
-  {id:'fish', name:'Fish', regions:[
-    ['<ellipse data-r="body" cx="45" cy="50" rx="28" ry="16"/>'],
-    ['<polygon data-r="tail" points="73,50 90,38 90,62"/>'],
-    ['<circle data-r="eye" cx="32" cy="45" r="3"/>'],
-    ['<polygon data-r="fin" points="45,34 55,26 58,38"/>'],
-    ['<circle data-r="b1" cx="70" cy="30" r="3"/>'],
-    ['<circle data-r="b2" cx="78" cy="22" r="2"/>'],
-  ]},
-  {id:'star', name:'Night sky', regions:[
-    ['<rect data-r="sky" x="10" y="10" width="80" height="80" rx="6"/>'],
-    ['<polygon data-r="moon" points="30,30 40,34 34,44 26,40"/>'],
-    ['<circle data-r="s1" cx="60" cy="30" r="3"/>'],
-    ['<circle data-r="s2" cx="72" cy="45" r="3"/>'],
-    ['<circle data-r="s3" cx="55" cy="60" r="3"/>'],
-    ['<circle data-r="s4" cx="35" cy="66" r="3"/>'],
-  ]},
-  {id:'butterfly', name:'Butterfly', regions:[
-    ['<ellipse data-r="wtl" cx="34" cy="38" rx="18" ry="15"/>'],
-    ['<ellipse data-r="wtr" cx="66" cy="38" rx="18" ry="15"/>'],
-    ['<ellipse data-r="wbl" cx="37" cy="62" rx="14" ry="13"/>'],
-    ['<ellipse data-r="wbr" cx="63" cy="62" rx="14" ry="13"/>'],
-    ['<rect data-r="body" x="48" y="30" width="4" height="42" rx="2"/>'],
-    ['<circle data-r="dl" cx="34" cy="38" r="4"/>'],
-    ['<circle data-r="dr" cx="66" cy="38" r="4"/>'],
-  ]},
+  {id:"little_house_e", name:"Little house", diff:"easy", regions:[["<polygon data-r=\"roof\" points=\"20,45 50,20 80,45\"/>"],["<rect data-r=\"wall\" x=\"28\" y=\"45\" width=\"44\" height=\"38\"/>"],["<rect data-r=\"door\" x=\"44\" y=\"60\" width=\"12\" height=\"23\"/>"],["<rect data-r=\"win1\" x=\"33\" y=\"52\" width=\"8\" height=\"8\"/>"],["<rect data-r=\"win2\" x=\"59\" y=\"52\" width=\"8\" height=\"8\"/>"],["<circle data-r=\"sun\" cx=\"80\" cy=\"18\" r=\"7\"/>"]]},
+  {id:"flower_e", name:"Flower", diff:"easy", regions:[["<circle data-r=\"p0\" cx=\"70.0\" cy=\"46.0\" r=\"11\"/>"],["<circle data-r=\"p1\" cx=\"56.2\" cy=\"65.0\" r=\"11\"/>"],["<circle data-r=\"p2\" cx=\"33.8\" cy=\"57.8\" r=\"11\"/>"],["<circle data-r=\"p3\" cx=\"33.8\" cy=\"34.2\" r=\"11\"/>"],["<circle data-r=\"p4\" cx=\"56.2\" cy=\"27.0\" r=\"11\"/>"],["<circle data-r=\"mid\" cx=\"50\" cy=\"46\" r=\"9\"/>"],["<rect data-r=\"stem\" x=\"48\" y=\"64\" width=\"4\" height=\"28\"/>"],["<ellipse data-r=\"leaf\" cx=\"40\" cy=\"76\" rx=\"8\" ry=\"4\"/>"]]},
+  {id:"fish_e", name:"Fish", diff:"easy", regions:[["<ellipse data-r=\"body\" cx=\"45\" cy=\"50\" rx=\"26\" ry=\"15\"/>"],["<polygon data-r=\"tail\" points=\"71,50 88,38 88,62\"/>"],["<circle data-r=\"eye\" cx=\"32\" cy=\"45\" r=\"3\"/>"],["<polygon data-r=\"fin\" points=\"45,35 55,27 58,39\"/>"],["<circle data-r=\"b0\" cx=\"66\" cy=\"28\" r=\"3\"/>"],["<circle data-r=\"b1\" cx=\"73\" cy=\"28\" r=\"2\"/>"]]},
+  {id:"night_sky_e", name:"Night sky", diff:"easy", regions:[["<rect data-r=\"sky\" x=\"10\" y=\"10\" width=\"80\" height=\"80\" rx=\"6\"/>"],["<polygon data-r=\"moon\" points=\"30,28 41,33 34,45 25,40\"/>"],["<circle data-r=\"st0\" cx=\"60\" cy=\"27\" r=\"2\"/>"],["<circle data-r=\"st1\" cx=\"67\" cy=\"37\" r=\"2\"/>"],["<circle data-r=\"st2\" cx=\"34\" cy=\"28\" r=\"2\"/>"],["<circle data-r=\"st3\" cx=\"63\" cy=\"67\" r=\"2\"/>"]]},
+  {id:"simple_sun_e", name:"Simple sun", diff:"easy", regions:[["<circle data-r=\"core\" cx=\"50\" cy=\"50\" r=\"18\"/>"],["<rect data-r=\"ray0\" x=\"48\" y=\"8\" width=\"4\" height=\"10\"/>"],["<rect data-r=\"ray1\" x=\"48\" y=\"8\" width=\"4\" height=\"10\"/>"],["<rect data-r=\"ray2\" x=\"48\" y=\"8\" width=\"4\" height=\"10\"/>"],["<rect data-r=\"ray3\" x=\"48\" y=\"8\" width=\"4\" height=\"10\"/>"],["<rect data-r=\"ray4\" x=\"48\" y=\"8\" width=\"4\" height=\"10\"/>"],["<rect data-r=\"ray5\" x=\"48\" y=\"8\" width=\"4\" height=\"10\"/>"]]},
+  {id:"balloon_e", name:"Balloon", diff:"easy", regions:[["<ellipse data-r=\"bal\" cx=\"50\" cy=\"38\" rx=\"20\" ry=\"24\"/>"],["<rect data-r=\"str\" x=\"49\" y=\"62\" width=\"2\" height=\"28\"/>"],["<rect data-r=\"knot\" x=\"47\" y=\"60\" width=\"6\" height=\"5\"/>"]]},
+  {id:"heart_e", name:"Heart", diff:"easy", regions:[["<path data-r=\"h\" d=\"M50,78 C20,55 25,25 50,40 C75,25 80,55 50,78 Z\"/>"]]},
+  {id:"cloud_e", name:"Cloud", diff:"easy", regions:[["<ellipse data-r=\"c1\" cx=\"40\" cy=\"50\" rx=\"16\" ry=\"12\"/>"],["<ellipse data-r=\"c2\" cx=\"58\" cy=\"50\" rx=\"18\" ry=\"13\"/>"],["<ellipse data-r=\"c3\" cx=\"50\" cy=\"44\" rx=\"14\" ry=\"12\"/>"]]},
+  {id:"apple_e", name:"Apple", diff:"easy", regions:[["<circle data-r=\"ap\" cx=\"50\" cy=\"54\" r=\"22\"/>"],["<rect data-r=\"stm\" x=\"49\" y=\"28\" width=\"3\" height=\"10\"/>"],["<ellipse data-r=\"lf\" cx=\"58\" cy=\"32\" rx=\"7\" ry=\"4\"/>"]]},
+  {id:"sailboat_e", name:"Sailboat", diff:"easy", regions:[["<polygon data-r=\"sail\" points=\"50,20 50,60 25,60\"/>"],["<polygon data-r=\"sail2\" points=\"52,25 52,60 70,60\"/>"],["<polygon data-r=\"hull\" points=\"20,62 80,62 70,75 30,75\"/>"],["<rect data-r=\"mast\" x=\"49\" y=\"20\" width=\"2\" height=\"42\"/>"]]},
+  {id:"mushroom_e", name:"Mushroom", diff:"easy", regions:[["<ellipse data-r=\"cap\" cx=\"50\" cy=\"40\" rx=\"26\" ry=\"18\"/>"],["<rect data-r=\"stem\" x=\"42\" y=\"52\" width=\"16\" height=\"30\" rx=\"4\"/>"],["<circle data-r=\"d1\" cx=\"40\" cy=\"36\" r=\"4\"/>"],["<circle data-r=\"d2\" cx=\"58\" cy=\"38\" r=\"3\"/>"]]},
+  {id:"ice_cream_e", name:"Ice cream", diff:"easy", regions:[["<polygon data-r=\"cone\" points=\"40,55 60,55 50,88\"/>"],["<circle data-r=\"s1\" cx=\"44\" cy=\"46\" r=\"11\"/>"],["<circle data-r=\"s2\" cx=\"56\" cy=\"46\" r=\"11\"/>"],["<circle data-r=\"s3\" cx=\"50\" cy=\"36\" r=\"11\"/>"]]},
+  {id:"tree_e", name:"Tree", diff:"easy", regions:[["<rect data-r=\"trunk\" x=\"46\" y=\"55\" width=\"8\" height=\"30\"/>"],["<circle data-r=\"l1\" cx=\"50\" cy=\"40\" r=\"20\"/>"],["<circle data-r=\"l2\" cx=\"38\" cy=\"48\" r=\"13\"/>"],["<circle data-r=\"l3\" cx=\"62\" cy=\"48\" r=\"13\"/>"]]},
+  {id:"star_e", name:"Star", diff:"easy", regions:[["<polygon data-r=\"star\" points=\"50,15 58,40 85,40 63,56 71,82 50,66 29,82 37,56 15,40 42,40\"/>"]]},
+  {id:"umbrella_e", name:"Umbrella", diff:"easy", regions:[["<path data-r=\"top\" d=\"M20,50 A30,30 0 0,1 80,50 Z\"/>"],["<rect data-r=\"handle\" x=\"49\" y=\"50\" width=\"2\" height=\"32\"/>"],["<path data-r=\"hook\" d=\"M49,82 A5,5 0 0,0 59,82\"/>"]]},
+  {id:"ladybug_e", name:"Ladybug", diff:"easy", regions:[["<circle data-r=\"bod\" cx=\"50\" cy=\"52\" r=\"22\"/>"],["<rect data-r=\"line\" x=\"49\" y=\"30\" width=\"2\" height=\"44\"/>"],["<circle data-r=\"sp1\" cx=\"40\" cy=\"48\" r=\"4\"/>"],["<circle data-r=\"sp2\" cx=\"60\" cy=\"48\" r=\"4\"/>"],["<circle data-r=\"head\" cx=\"50\" cy=\"30\" r=\"8\"/>"]]},
+  {id:"moon_e", name:"Moon", diff:"easy", regions:[["<path data-r=\"moon\" d=\"M60,20 A32,32 0 1,0 60,84 A26,26 0 1,1 60,20 Z\"/>"],["<circle data-r=\"s1\" cx=\"30\" cy=\"30\" r=\"3\"/>"],["<circle data-r=\"s2\" cx=\"40\" cy=\"70\" r=\"3\"/>"]]},
+  {id:"kite_e", name:"Kite", diff:"easy", regions:[["<polygon data-r=\"k\" points=\"50,15 72,45 50,75 28,45\"/>"],["<rect data-r=\"tail\" x=\"49\" y=\"75\" width=\"2\" height=\"15\"/>"],["<circle data-r=\"bow1\" cx=\"50\" cy=\"82\" r=\"3\"/>"]]},
+  {id:"snail_e", name:"Snail", diff:"easy", regions:[["<path data-r=\"shell\" d=\"M55,50 m-18,0 a18,18 0 1,0 36,0 a12,12 0 1,1 -24,0 a6,6 0 1,0 12,0\"/>"],["<ellipse data-r=\"body\" cx=\"30\" cy=\"62\" rx=\"16\" ry=\"7\"/>"],["<circle data-r=\"eye\" cx=\"20\" cy=\"56\" r=\"2\"/>"]]},
+  {id:"cactus_e", name:"Cactus", diff:"easy", regions:[["<rect data-r=\"main\" x=\"44\" y=\"40\" width=\"12\" height=\"45\" rx=\"6\"/>"],["<rect data-r=\"arm1\" x=\"30\" y=\"50\" width=\"10\" height=\"8\" rx=\"4\"/>"],["<rect data-r=\"arm2\" x=\"56\" y=\"45\" width=\"10\" height=\"8\" rx=\"4\"/>"],["<ellipse data-r=\"pot\" cx=\"50\" cy=\"85\" rx=\"16\" ry=\"6\"/>"]]},
+  {id:"big_flower_m", name:"Big flower", diff:"medium", regions:[["<circle data-r=\"p0\" cx=\"70.0\" cy=\"46.0\" r=\"11\"/>"],["<circle data-r=\"p1\" cx=\"64.1\" cy=\"60.1\" r=\"11\"/>"],["<circle data-r=\"p2\" cx=\"50.0\" cy=\"66.0\" r=\"11\"/>"],["<circle data-r=\"p3\" cx=\"35.9\" cy=\"60.1\" r=\"11\"/>"],["<circle data-r=\"p4\" cx=\"30.0\" cy=\"46.0\" r=\"11\"/>"],["<circle data-r=\"p5\" cx=\"35.9\" cy=\"31.9\" r=\"11\"/>"],["<circle data-r=\"p6\" cx=\"50.0\" cy=\"26.0\" r=\"11\"/>"],["<circle data-r=\"p7\" cx=\"64.1\" cy=\"31.9\" r=\"11\"/>"],["<circle data-r=\"mid\" cx=\"50\" cy=\"46\" r=\"9\"/>"],["<rect data-r=\"stem\" x=\"48\" y=\"64\" width=\"4\" height=\"28\"/>"],["<ellipse data-r=\"leaf\" cx=\"40\" cy=\"76\" rx=\"8\" ry=\"4\"/>"]]},
+  {id:"fish_pond_m", name:"Fish pond", diff:"medium", regions:[["<ellipse data-r=\"body\" cx=\"45\" cy=\"50\" rx=\"26\" ry=\"15\"/>"],["<polygon data-r=\"tail\" points=\"71,50 88,38 88,62\"/>"],["<circle data-r=\"eye\" cx=\"32\" cy=\"45\" r=\"3\"/>"],["<polygon data-r=\"fin\" points=\"45,35 55,27 58,39\"/>"],["<circle data-r=\"b0\" cx=\"66\" cy=\"28\" r=\"3\"/>"],["<circle data-r=\"b1\" cx=\"73\" cy=\"28\" r=\"2\"/>"],["<circle data-r=\"b2\" cx=\"80\" cy=\"28\" r=\"3\"/>"],["<circle data-r=\"b3\" cx=\"66\" cy=\"20\" r=\"2\"/>"],["<circle data-r=\"b4\" cx=\"73\" cy=\"20\" r=\"3\"/>"],["<circle data-r=\"b5\" cx=\"80\" cy=\"20\" r=\"2\"/>"]]},
+  {id:"butterfly_m", name:"Butterfly", diff:"medium", regions:[["<ellipse data-r=\"wtl\" cx=\"34\" cy=\"38\" rx=\"18\" ry=\"15\"/>"],["<ellipse data-r=\"wtr\" cx=\"66\" cy=\"38\" rx=\"18\" ry=\"15\"/>"],["<ellipse data-r=\"wbl\" cx=\"37\" cy=\"62\" rx=\"14\" ry=\"13\"/>"],["<ellipse data-r=\"wbr\" cx=\"63\" cy=\"62\" rx=\"14\" ry=\"13\"/>"],["<rect data-r=\"bod\" x=\"48\" y=\"30\" width=\"4\" height=\"42\" rx=\"2\"/>"],["<circle data-r=\"s0\" cx=\"28\" cy=\"38\" r=\"3\"/>"],["<circle data-r=\"s1\" cx=\"66\" cy=\"38\" r=\"3\"/>"],["<circle data-r=\"s2\" cx=\"40\" cy=\"45\" r=\"3\"/>"],["<circle data-r=\"s3\" cx=\"60\" cy=\"45\" r=\"3\"/>"]]},
+  {id:"starry_night_m", name:"Starry night", diff:"medium", regions:[["<rect data-r=\"sky\" x=\"10\" y=\"10\" width=\"80\" height=\"80\" rx=\"6\"/>"],["<polygon data-r=\"moon\" points=\"30,28 41,33 34,45 25,40\"/>"],["<circle data-r=\"st0\" cx=\"57\" cy=\"47\" r=\"2\"/>"],["<circle data-r=\"st1\" cx=\"21\" cy=\"25\" r=\"2\"/>"],["<circle data-r=\"st2\" cx=\"34\" cy=\"52\" r=\"2\"/>"],["<circle data-r=\"st3\" cx=\"55\" cy=\"32\" r=\"3\"/>"],["<circle data-r=\"st4\" cx=\"34\" cy=\"48\" r=\"3\"/>"],["<circle data-r=\"st5\" cx=\"71\" cy=\"75\" r=\"2\"/>"],["<circle data-r=\"st6\" cx=\"68\" cy=\"71\" r=\"2\"/>"],["<circle data-r=\"st7\" cx=\"64\" cy=\"47\" r=\"3\"/>"]]},
+  {id:"cottage_m", name:"Cottage", diff:"medium", regions:[["<polygon data-r=\"roof\" points=\"20,45 50,20 80,45\"/>"],["<rect data-r=\"wall\" x=\"28\" y=\"45\" width=\"44\" height=\"38\"/>"],["<rect data-r=\"door\" x=\"44\" y=\"60\" width=\"12\" height=\"23\"/>"],["<rect data-r=\"win1\" x=\"33\" y=\"52\" width=\"8\" height=\"8\"/>"],["<rect data-r=\"win2\" x=\"59\" y=\"52\" width=\"8\" height=\"8\"/>"],["<circle data-r=\"sun\" cx=\"80\" cy=\"18\" r=\"7\"/>"],["<rect data-r=\"brick0\" x=\"30\" y=\"46\" width=\"8\" height=\"4\"/>"],["<rect data-r=\"brick1\" x=\"40\" y=\"46\" width=\"8\" height=\"4\"/>"],["<rect data-r=\"brick2\" x=\"50\" y=\"46\" width=\"8\" height=\"4\"/>"],["<rect data-r=\"brick3\" x=\"60\" y=\"46\" width=\"8\" height=\"4\"/>"]]},
+  {id:"sunburst_m", name:"Sunburst", diff:"medium", regions:[["<polygon data-r=\"t0\" points=\"64.0,50.0 81.3,63.2 81.3,36.8\"/>"],["<polygon data-r=\"t1\" points=\"59.9,59.9 62.8,81.5 81.5,62.8\"/>"],["<polygon data-r=\"t2\" points=\"50.0,64.0 36.8,81.3 63.2,81.3\"/>"],["<polygon data-r=\"t3\" points=\"40.1,59.9 18.5,62.8 37.2,81.5\"/>"],["<polygon data-r=\"t4\" points=\"36.0,50.0 18.7,36.8 18.7,63.2\"/>"],["<polygon data-r=\"t5\" points=\"40.1,40.1 37.2,18.5 18.5,37.2\"/>"],["<polygon data-r=\"t6\" points=\"50.0,36.0 63.2,18.7 36.8,18.7\"/>"],["<polygon data-r=\"t7\" points=\"59.9,40.1 81.5,37.2 62.8,18.5\"/>"],["<circle data-r=\"core\" cx=\"50\" cy=\"50\" r=\"13\"/>"]]},
+  {id:"turtle_m", name:"Turtle", diff:"medium", regions:[["<ellipse data-r=\"shell\" cx=\"50\" cy=\"52\" rx=\"24\" ry=\"18\"/>"],["<rect data-r=\"sc0\" x=\"38\" y=\"44\" width=\"8\" height=\"8\"/>"],["<rect data-r=\"sc1\" x=\"48\" y=\"44\" width=\"8\" height=\"8\"/>"],["<rect data-r=\"sc2\" x=\"58\" y=\"44\" width=\"8\" height=\"8\"/>"],["<rect data-r=\"sc3\" x=\"38\" y=\"54\" width=\"8\" height=\"8\"/>"],["<rect data-r=\"sc4\" x=\"48\" y=\"54\" width=\"8\" height=\"8\"/>"],["<rect data-r=\"sc5\" x=\"58\" y=\"54\" width=\"8\" height=\"8\"/>"],["<circle data-r=\"head\" cx=\"50\" cy=\"30\" r=\"7\"/>"],["<ellipse data-r=\"fl\" cx=\"30\" cy=\"60\" rx=\"7\" ry=\"4\"/>"],["<ellipse data-r=\"fr\" cx=\"70\" cy=\"60\" rx=\"7\" ry=\"4\"/>"]]},
+  {id:"owl_m", name:"Owl", diff:"medium", regions:[["<ellipse data-r=\"body\" cx=\"50\" cy=\"55\" rx=\"22\" ry=\"26\"/>"],["<circle data-r=\"eyeL\" cx=\"42\" cy=\"44\" r=\"8\"/>"],["<circle data-r=\"eyeR\" cx=\"58\" cy=\"44\" r=\"8\"/>"],["<circle data-r=\"pL\" cx=\"42\" cy=\"44\" r=\"3\"/>"],["<circle data-r=\"pR\" cx=\"58\" cy=\"44\" r=\"3\"/>"],["<polygon data-r=\"beak\" points=\"50,48 46,54 54,54\"/>"],["<ellipse data-r=\"wingL\" cx=\"32\" cy=\"58\" rx=\"7\" ry=\"16\"/>"],["<ellipse data-r=\"wingR\" cx=\"68\" cy=\"58\" rx=\"7\" ry=\"16\"/>"],["<polygon data-r=\"tuftL\" points=\"38,24 42,38 34,34\"/>"],["<polygon data-r=\"tuftR\" points=\"62,24 58,38 66,34\"/>"]]},
+  {id:"flower_grid_m", name:"Flower grid", diff:"medium", regions:[["<rect data-r=\"c0_0\" x=\"10.0\" y=\"10.0\" width=\"26.7\" height=\"26.7\"/>"],["<rect data-r=\"c0_1\" x=\"36.7\" y=\"10.0\" width=\"26.7\" height=\"26.7\"/>"],["<rect data-r=\"c0_2\" x=\"63.3\" y=\"10.0\" width=\"26.7\" height=\"26.7\"/>"],["<rect data-r=\"c1_0\" x=\"10.0\" y=\"36.7\" width=\"26.7\" height=\"26.7\"/>"],["<rect data-r=\"c1_1\" x=\"36.7\" y=\"36.7\" width=\"26.7\" height=\"26.7\"/>"],["<rect data-r=\"c1_2\" x=\"63.3\" y=\"36.7\" width=\"26.7\" height=\"26.7\"/>"],["<rect data-r=\"c2_0\" x=\"10.0\" y=\"63.3\" width=\"26.7\" height=\"26.7\"/>"],["<rect data-r=\"c2_1\" x=\"36.7\" y=\"63.3\" width=\"26.7\" height=\"26.7\"/>"],["<rect data-r=\"c2_2\" x=\"63.3\" y=\"63.3\" width=\"26.7\" height=\"26.7\"/>"]]},
+  {id:"rocket_m", name:"Rocket", diff:"medium", regions:[["<polygon data-r=\"nose\" points=\"50,12 62,40 38,40\"/>"],["<rect data-r=\"body\" x=\"38\" y=\"40\" width=\"24\" height=\"32\"/>"],["<circle data-r=\"win\" cx=\"50\" cy=\"52\" r=\"6\"/>"],["<polygon data-r=\"finL\" points=\"38,60 26,78 38,72\"/>"],["<polygon data-r=\"finR\" points=\"62,60 74,78 62,72\"/>"],["<polygon data-r=\"flame\" points=\"42,72 58,72 50,90\"/>"],["<circle data-r=\"st1\" cx=\"22\" cy=\"30\" r=\"2\"/>"],["<circle data-r=\"st2\" cx=\"78\" cy=\"35\" r=\"2\"/>"],["<circle data-r=\"st3\" cx=\"70\" cy=\"18\" r=\"2\"/>"]]},
+  {id:"mandala_s_m", name:"Mandala S", diff:"medium", regions:[["<circle data-r=\"c\" cx=\"50\" cy=\"50\" r=\"7\"/>"],["<circle data-r=\"r0p0\" cx=\"62.0\" cy=\"50.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p1\" cx=\"56.0\" cy=\"60.4\" r=\"5.0\"/>"],["<circle data-r=\"r0p2\" cx=\"44.0\" cy=\"60.4\" r=\"5.0\"/>"],["<circle data-r=\"r0p3\" cx=\"38.0\" cy=\"50.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p4\" cx=\"44.0\" cy=\"39.6\" r=\"5.0\"/>"],["<circle data-r=\"r0p5\" cx=\"56.0\" cy=\"39.6\" r=\"5.0\"/>"],["<circle data-r=\"r1p0\" cx=\"72.0\" cy=\"56.8\" r=\"4.4\"/>"],["<circle data-r=\"r1p1\" cx=\"55.1\" cy=\"72.4\" r=\"4.4\"/>"],["<circle data-r=\"r1p2\" cx=\"33.1\" cy=\"65.6\" r=\"4.4\"/>"],["<circle data-r=\"r1p3\" cx=\"28.0\" cy=\"43.2\" r=\"4.4\"/>"],["<circle data-r=\"r1p4\" cx=\"44.9\" cy=\"27.6\" r=\"4.4\"/>"],["<circle data-r=\"r1p5\" cx=\"66.9\" cy=\"34.4\" r=\"4.4\"/>"]]},
+  {id:"peacock_m", name:"Peacock", diff:"medium", regions:[["<ellipse data-r=\"body\" cx=\"50\" cy=\"64\" rx=\"10\" ry=\"16\"/>"],["<circle data-r=\"f0\" cx=\"17\" cy=\"38\" r=\"7\"/>"],["<circle data-r=\"f1\" cx=\"28\" cy=\"38\" r=\"7\"/>"],["<circle data-r=\"f2\" cx=\"39\" cy=\"38\" r=\"7\"/>"],["<circle data-r=\"f3\" cx=\"50\" cy=\"38\" r=\"7\"/>"],["<circle data-r=\"f4\" cx=\"61\" cy=\"38\" r=\"7\"/>"],["<circle data-r=\"f5\" cx=\"72\" cy=\"38\" r=\"7\"/>"],["<circle data-r=\"f6\" cx=\"83\" cy=\"38\" r=\"7\"/>"],["<circle data-r=\"head\" cx=\"50\" cy=\"42\" r=\"6\"/>"]]},
+  {id:"hot_air_balloon_m", name:"Hot air balloon", diff:"medium", regions:[["<ellipse data-r=\"bal\" cx=\"50\" cy=\"38\" rx=\"24\" ry=\"28\"/>"],["<path data-r=\"str0\" d=\"M32,60 L48,74\"/>"],["<path data-r=\"str1\" d=\"M41,60 L48,74\"/>"],["<path data-r=\"str2\" d=\"M50,60 L48,74\"/>"],["<path data-r=\"str3\" d=\"M59,60 L48,74\"/>"],["<rect data-r=\"basket\" x=\"44\" y=\"74\" width=\"12\" height=\"10\"/>"],["<rect data-r=\"pan1\" x=\"30\" y=\"30\" width=\"40\" height=\"6\"/>"]]},
+  {id:"garden_m", name:"Garden", diff:"medium", regions:[["<rect data-r=\"sky\" x=\"10\" y=\"10\" width=\"80\" height=\"45\"/>"],["<rect data-r=\"grass\" x=\"10\" y=\"55\" width=\"80\" height=\"35\"/>"],["<circle data-r=\"sun\" cx=\"75\" cy=\"24\" r=\"9\"/>"],["<circle data-r=\"fl1\" cx=\"28\" cy=\"60\" r=\"5\"/>"],["<circle data-r=\"fl2\" cx=\"45\" cy=\"64\" r=\"5\"/>"],["<circle data-r=\"fl3\" cx=\"62\" cy=\"60\" r=\"5\"/>"],["<rect data-r=\"st1\" x=\"27\" y=\"64\" width=\"2\" height=\"14\"/>"],["<rect data-r=\"st2\" x=\"44\" y=\"68\" width=\"2\" height=\"12\"/>"],["<rect data-r=\"st3\" x=\"61\" y=\"64\" width=\"2\" height=\"14\"/>"]]},
+  {id:"cat_face_m", name:"Cat face", diff:"medium", regions:[["<circle data-r=\"face\" cx=\"50\" cy=\"52\" r=\"24\"/>"],["<polygon data-r=\"earL\" points=\"30,34 26,16 44,28\"/>"],["<polygon data-r=\"earR\" points=\"70,34 74,16 56,28\"/>"],["<circle data-r=\"eyeL\" cx=\"42\" cy=\"48\" r=\"4\"/>"],["<circle data-r=\"eyeR\" cx=\"58\" cy=\"48\" r=\"4\"/>"],["<polygon data-r=\"nose\" points=\"50,54 46,58 54,58\"/>"],["<rect data-r=\"wl1\" x=\"20\" y=\"56\" width=\"14\" height=\"1.5\"/>"],["<rect data-r=\"wr1\" x=\"66\" y=\"56\" width=\"14\" height=\"1.5\"/>"]]},
+  {id:"snowman_m", name:"Snowman", diff:"medium", regions:[["<circle data-r=\"bot\" cx=\"50\" cy=\"70\" r=\"18\"/>"],["<circle data-r=\"mid\" cx=\"50\" cy=\"46\" r=\"14\"/>"],["<circle data-r=\"head\" cx=\"50\" cy=\"26\" r=\"10\"/>"],["<circle data-r=\"eL\" cx=\"47\" cy=\"24\" r=\"1.5\"/>"],["<circle data-r=\"eR\" cx=\"53\" cy=\"24\" r=\"1.5\"/>"],["<polygon data-r=\"nose\" points=\"50,27 58,28 50,30\"/>"],["<circle data-r=\"b1\" cx=\"50\" cy=\"44\" r=\"2\"/>"],["<circle data-r=\"b2\" cx=\"50\" cy=\"50\" r=\"2\"/>"],["<rect data-r=\"hat\" x=\"42\" y=\"14\" width=\"16\" height=\"6\"/>"]]},
+  {id:"grapes_m", name:"Grapes", diff:"medium", regions:[["<circle data-r=\"g0\" cx=\"40\" cy=\"45\" r=\"6\"/>"],["<circle data-r=\"g1\" cx=\"50\" cy=\"45\" r=\"6\"/>"],["<circle data-r=\"g2\" cx=\"60\" cy=\"45\" r=\"6\"/>"],["<circle data-r=\"g3\" cx=\"40\" cy=\"54\" r=\"6\"/>"],["<circle data-r=\"g4\" cx=\"50\" cy=\"54\" r=\"6\"/>"],["<circle data-r=\"g5\" cx=\"60\" cy=\"54\" r=\"6\"/>"],["<circle data-r=\"g6\" cx=\"40\" cy=\"63\" r=\"6\"/>"],["<circle data-r=\"g7\" cx=\"50\" cy=\"63\" r=\"6\"/>"],["<circle data-r=\"g8\" cx=\"60\" cy=\"63\" r=\"6\"/>"],["<ellipse data-r=\"leaf\" cx=\"50\" cy=\"32\" rx=\"9\" ry=\"5\"/>"]]},
+  {id:"car_m", name:"Car", diff:"medium", regions:[["<rect data-r=\"body\" x=\"20\" y=\"48\" width=\"60\" height=\"18\" rx=\"4\"/>"],["<path data-r=\"top\" d=\"M32,48 L40,36 L60,36 L68,48 Z\"/>"],["<circle data-r=\"wL\" cx=\"34\" cy=\"68\" r=\"8\"/>"],["<circle data-r=\"wR\" cx=\"66\" cy=\"68\" r=\"8\"/>"],["<rect data-r=\"winL\" x=\"40\" y=\"38\" width=\"8\" height=\"9\"/>"],["<rect data-r=\"winR\" x=\"52\" y=\"38\" width=\"8\" height=\"9\"/>"],["<circle data-r=\"hl\" cx=\"78\" cy=\"54\" r=\"3\"/>"],["<rect data-r=\"door\" x=\"48\" y=\"50\" width=\"2\" height=\"14\"/>"]]},
+  {id:"ferris_wheel_m", name:"Ferris wheel", diff:"medium", regions:[["<circle data-r=\"c\" cx=\"50\" cy=\"50\" r=\"7\"/>"],["<circle data-r=\"r0p0\" cx=\"62.0\" cy=\"50.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p1\" cx=\"58.5\" cy=\"58.5\" r=\"5.0\"/>"],["<circle data-r=\"r0p2\" cx=\"50.0\" cy=\"62.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p3\" cx=\"41.5\" cy=\"58.5\" r=\"5.0\"/>"],["<circle data-r=\"r0p4\" cx=\"38.0\" cy=\"50.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p5\" cx=\"41.5\" cy=\"41.5\" r=\"5.0\"/>"],["<circle data-r=\"r0p6\" cx=\"50.0\" cy=\"38.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p7\" cx=\"58.5\" cy=\"41.5\" r=\"5.0\"/>"]]},
+  {id:"big_mandala_h", name:"Big mandala", diff:"hard", regions:[["<circle data-r=\"c\" cx=\"50\" cy=\"50\" r=\"7\"/>"],["<circle data-r=\"r0p0\" cx=\"62.0\" cy=\"50.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p1\" cx=\"58.5\" cy=\"58.5\" r=\"5.0\"/>"],["<circle data-r=\"r0p2\" cx=\"50.0\" cy=\"62.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p3\" cx=\"41.5\" cy=\"58.5\" r=\"5.0\"/>"],["<circle data-r=\"r0p4\" cx=\"38.0\" cy=\"50.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p5\" cx=\"41.5\" cy=\"41.5\" r=\"5.0\"/>"],["<circle data-r=\"r0p6\" cx=\"50.0\" cy=\"38.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p7\" cx=\"58.5\" cy=\"41.5\" r=\"5.0\"/>"],["<circle data-r=\"r1p0\" cx=\"72.0\" cy=\"56.8\" r=\"4.4\"/>"],["<circle data-r=\"r1p1\" cx=\"60.7\" cy=\"70.3\" r=\"4.4\"/>"],["<circle data-r=\"r1p2\" cx=\"43.2\" cy=\"72.0\" r=\"4.4\"/>"],["<circle data-r=\"r1p3\" cx=\"29.7\" cy=\"60.7\" r=\"4.4\"/>"],["<circle data-r=\"r1p4\" cx=\"28.0\" cy=\"43.2\" r=\"4.4\"/>"],["<circle data-r=\"r1p5\" cx=\"39.3\" cy=\"29.7\" r=\"4.4\"/>"],["<circle data-r=\"r1p6\" cx=\"56.8\" cy=\"28.0\" r=\"4.4\"/>"],["<circle data-r=\"r1p7\" cx=\"70.3\" cy=\"39.3\" r=\"4.4\"/>"],["<circle data-r=\"r2p0\" cx=\"78.1\" cy=\"69.2\" r=\"3.8\"/>"],["<circle data-r=\"r2p1\" cx=\"56.3\" cy=\"83.4\" r=\"3.8\"/>"],["<circle data-r=\"r2p2\" cx=\"30.8\" cy=\"78.1\" r=\"3.8\"/>"],["<circle data-r=\"r2p3\" cx=\"16.6\" cy=\"56.3\" r=\"3.8\"/>"],["<circle data-r=\"r2p4\" cx=\"21.9\" cy=\"30.8\" r=\"3.8\"/>"],["<circle data-r=\"r2p5\" cx=\"43.7\" cy=\"16.6\" r=\"3.8\"/>"],["<circle data-r=\"r2p6\" cx=\"69.2\" cy=\"21.9\" r=\"3.8\"/>"],["<circle data-r=\"r2p7\" cx=\"83.4\" cy=\"43.7\" r=\"3.8\"/>"]]},
+  {id:"grand_mandala_h", name:"Grand mandala", diff:"hard", regions:[["<circle data-r=\"c\" cx=\"50\" cy=\"50\" r=\"7\"/>"],["<circle data-r=\"r0p0\" cx=\"62.0\" cy=\"50.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p1\" cx=\"59.7\" cy=\"57.1\" r=\"5.0\"/>"],["<circle data-r=\"r0p2\" cx=\"53.7\" cy=\"61.4\" r=\"5.0\"/>"],["<circle data-r=\"r0p3\" cx=\"46.3\" cy=\"61.4\" r=\"5.0\"/>"],["<circle data-r=\"r0p4\" cx=\"40.3\" cy=\"57.1\" r=\"5.0\"/>"],["<circle data-r=\"r0p5\" cx=\"38.0\" cy=\"50.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p6\" cx=\"40.3\" cy=\"42.9\" r=\"5.0\"/>"],["<circle data-r=\"r0p7\" cx=\"46.3\" cy=\"38.6\" r=\"5.0\"/>"],["<circle data-r=\"r0p8\" cx=\"53.7\" cy=\"38.6\" r=\"5.0\"/>"],["<circle data-r=\"r0p9\" cx=\"59.7\" cy=\"42.9\" r=\"5.0\"/>"],["<circle data-r=\"r1p0\" cx=\"72.0\" cy=\"56.8\" r=\"4.4\"/>"],["<circle data-r=\"r1p1\" cx=\"63.8\" cy=\"68.4\" r=\"4.4\"/>"],["<circle data-r=\"r1p2\" cx=\"50.3\" cy=\"73.0\" r=\"4.4\"/>"],["<circle data-r=\"r1p3\" cx=\"36.7\" cy=\"68.8\" r=\"4.4\"/>"],["<circle data-r=\"r1p4\" cx=\"28.2\" cy=\"57.4\" r=\"4.4\"/>"],["<circle data-r=\"r1p5\" cx=\"28.0\" cy=\"43.2\" r=\"4.4\"/>"],["<circle data-r=\"r1p6\" cx=\"36.2\" cy=\"31.6\" r=\"4.4\"/>"],["<circle data-r=\"r1p7\" cx=\"49.7\" cy=\"27.0\" r=\"4.4\"/>"],["<circle data-r=\"r1p8\" cx=\"63.3\" cy=\"31.2\" r=\"4.4\"/>"],["<circle data-r=\"r1p9\" cx=\"71.8\" cy=\"42.6\" r=\"4.4\"/>"],["<circle data-r=\"r2p0\" cx=\"78.1\" cy=\"69.2\" r=\"3.8\"/>"],["<circle data-r=\"r2p1\" cx=\"61.4\" cy=\"82.0\" r=\"3.8\"/>"],["<circle data-r=\"r2p2\" cx=\"40.4\" cy=\"82.6\" r=\"3.8\"/>"],["<circle data-r=\"r2p3\" cx=\"23.1\" cy=\"70.8\" r=\"3.8\"/>"],["<circle data-r=\"r2p4\" cx=\"16.0\" cy=\"51.0\" r=\"3.8\"/>"],["<circle data-r=\"r2p5\" cx=\"21.9\" cy=\"30.8\" r=\"3.8\"/>"],["<circle data-r=\"r2p6\" cx=\"38.6\" cy=\"18.0\" r=\"3.8\"/>"],["<circle data-r=\"r2p7\" cx=\"59.6\" cy=\"17.4\" r=\"3.8\"/>"],["<circle data-r=\"r2p8\" cx=\"76.9\" cy=\"29.2\" r=\"3.8\"/>"],["<circle data-r=\"r2p9\" cx=\"84.0\" cy=\"49.0\" r=\"3.8\"/>"]]},
+  {id:"kaleidoscope_h", name:"Kaleidoscope", diff:"hard", regions:[["<polygon data-r=\"t0\" points=\"64.0,50.0 81.3,63.2 81.3,36.8\"/>"],["<polygon data-r=\"t1\" points=\"62.1,57.0 70.5,77.1 83.7,54.2\"/>"],["<polygon data-r=\"t2\" points=\"57.0,62.1 54.2,83.7 77.1,70.5\"/>"],["<polygon data-r=\"t3\" points=\"50.0,64.0 36.8,81.3 63.2,81.3\"/>"],["<polygon data-r=\"t4\" points=\"43.0,62.1 22.9,70.5 45.8,83.7\"/>"],["<polygon data-r=\"t5\" points=\"37.9,57.0 16.3,54.2 29.5,77.1\"/>"],["<polygon data-r=\"t6\" points=\"36.0,50.0 18.7,36.8 18.7,63.2\"/>"],["<polygon data-r=\"t7\" points=\"37.9,43.0 29.5,22.9 16.3,45.8\"/>"],["<polygon data-r=\"t8\" points=\"43.0,37.9 45.8,16.3 22.9,29.5\"/>"],["<polygon data-r=\"t9\" points=\"50.0,36.0 63.2,18.7 36.8,18.7\"/>"],["<polygon data-r=\"t10\" points=\"57.0,37.9 77.1,29.5 54.2,16.3\"/>"],["<polygon data-r=\"t11\" points=\"62.1,43.0 83.7,45.8 70.5,22.9\"/>"],["<circle data-r=\"core\" cx=\"50\" cy=\"50\" r=\"13\"/>"]]},
+  {id:"flower_burst_h", name:"Flower burst", diff:"hard", regions:[["<circle data-r=\"p0\" cx=\"70.0\" cy=\"46.0\" r=\"11\"/>"],["<circle data-r=\"p1\" cx=\"67.3\" cy=\"56.0\" r=\"11\"/>"],["<circle data-r=\"p2\" cx=\"60.0\" cy=\"63.3\" r=\"11\"/>"],["<circle data-r=\"p3\" cx=\"50.0\" cy=\"66.0\" r=\"11\"/>"],["<circle data-r=\"p4\" cx=\"40.0\" cy=\"63.3\" r=\"11\"/>"],["<circle data-r=\"p5\" cx=\"32.7\" cy=\"56.0\" r=\"11\"/>"],["<circle data-r=\"p6\" cx=\"30.0\" cy=\"46.0\" r=\"11\"/>"],["<circle data-r=\"p7\" cx=\"32.7\" cy=\"36.0\" r=\"11\"/>"],["<circle data-r=\"p8\" cx=\"40.0\" cy=\"28.7\" r=\"11\"/>"],["<circle data-r=\"p9\" cx=\"50.0\" cy=\"26.0\" r=\"11\"/>"],["<circle data-r=\"p10\" cx=\"60.0\" cy=\"28.7\" r=\"11\"/>"],["<circle data-r=\"p11\" cx=\"67.3\" cy=\"36.0\" r=\"11\"/>"],["<circle data-r=\"q0\" cx=\"78.0\" cy=\"53.5\" r=\"6\"/>"],["<circle data-r=\"q1\" cx=\"70.5\" cy=\"66.5\" r=\"6\"/>"],["<circle data-r=\"q2\" cx=\"57.5\" cy=\"74.0\" r=\"6\"/>"],["<circle data-r=\"q3\" cx=\"42.5\" cy=\"74.0\" r=\"6\"/>"],["<circle data-r=\"q4\" cx=\"29.5\" cy=\"66.5\" r=\"6\"/>"],["<circle data-r=\"q5\" cx=\"22.0\" cy=\"53.5\" r=\"6\"/>"],["<circle data-r=\"q6\" cx=\"22.0\" cy=\"38.5\" r=\"6\"/>"],["<circle data-r=\"q7\" cx=\"29.5\" cy=\"25.5\" r=\"6\"/>"],["<circle data-r=\"q8\" cx=\"42.5\" cy=\"18.0\" r=\"6\"/>"],["<circle data-r=\"q9\" cx=\"57.5\" cy=\"18.0\" r=\"6\"/>"],["<circle data-r=\"q10\" cx=\"70.5\" cy=\"25.5\" r=\"6\"/>"],["<circle data-r=\"q11\" cx=\"78.0\" cy=\"38.5\" r=\"6\"/>"],["<circle data-r=\"mid\" cx=\"50\" cy=\"46\" r=\"9\"/>"],["<rect data-r=\"stem\" x=\"48\" y=\"64\" width=\"4\" height=\"28\"/>"],["<ellipse data-r=\"leaf\" cx=\"40\" cy=\"76\" rx=\"8\" ry=\"4\"/>"]]},
+  {id:"checker_grid_h", name:"Checker grid", diff:"hard", regions:[["<rect data-r=\"c0_0\" x=\"10.0\" y=\"10.0\" width=\"20.0\" height=\"20.0\"/>"],["<rect data-r=\"c0_1\" x=\"30.0\" y=\"10.0\" width=\"20.0\" height=\"20.0\"/>"],["<rect data-r=\"c0_2\" x=\"50.0\" y=\"10.0\" width=\"20.0\" height=\"20.0\"/>"],["<rect data-r=\"c0_3\" x=\"70.0\" y=\"10.0\" width=\"20.0\" height=\"20.0\"/>"],["<rect data-r=\"c1_0\" x=\"10.0\" y=\"30.0\" width=\"20.0\" height=\"20.0\"/>"],["<rect data-r=\"c1_1\" x=\"30.0\" y=\"30.0\" width=\"20.0\" height=\"20.0\"/>"],["<rect data-r=\"c1_2\" x=\"50.0\" y=\"30.0\" width=\"20.0\" height=\"20.0\"/>"],["<rect data-r=\"c1_3\" x=\"70.0\" y=\"30.0\" width=\"20.0\" height=\"20.0\"/>"],["<rect data-r=\"c2_0\" x=\"10.0\" y=\"50.0\" width=\"20.0\" height=\"20.0\"/>"],["<rect data-r=\"c2_1\" x=\"30.0\" y=\"50.0\" width=\"20.0\" height=\"20.0\"/>"],["<rect data-r=\"c2_2\" x=\"50.0\" y=\"50.0\" width=\"20.0\" height=\"20.0\"/>"],["<rect data-r=\"c2_3\" x=\"70.0\" y=\"50.0\" width=\"20.0\" height=\"20.0\"/>"],["<rect data-r=\"c3_0\" x=\"10.0\" y=\"70.0\" width=\"20.0\" height=\"20.0\"/>"],["<rect data-r=\"c3_1\" x=\"30.0\" y=\"70.0\" width=\"20.0\" height=\"20.0\"/>"],["<rect data-r=\"c3_2\" x=\"50.0\" y=\"70.0\" width=\"20.0\" height=\"20.0\"/>"],["<rect data-r=\"c3_3\" x=\"70.0\" y=\"70.0\" width=\"20.0\" height=\"20.0\"/>"]]},
+  {id:"fine_grid_h", name:"Fine grid", diff:"hard", regions:[["<rect data-r=\"c0_0\" x=\"10.0\" y=\"10.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c0_1\" x=\"26.0\" y=\"10.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c0_2\" x=\"42.0\" y=\"10.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c0_3\" x=\"58.0\" y=\"10.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c0_4\" x=\"74.0\" y=\"10.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c1_0\" x=\"10.0\" y=\"26.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c1_1\" x=\"26.0\" y=\"26.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c1_2\" x=\"42.0\" y=\"26.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c1_3\" x=\"58.0\" y=\"26.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c1_4\" x=\"74.0\" y=\"26.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c2_0\" x=\"10.0\" y=\"42.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c2_1\" x=\"26.0\" y=\"42.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c2_2\" x=\"42.0\" y=\"42.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c2_3\" x=\"58.0\" y=\"42.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c2_4\" x=\"74.0\" y=\"42.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c3_0\" x=\"10.0\" y=\"58.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c3_1\" x=\"26.0\" y=\"58.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c3_2\" x=\"42.0\" y=\"58.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c3_3\" x=\"58.0\" y=\"58.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c3_4\" x=\"74.0\" y=\"58.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c4_0\" x=\"10.0\" y=\"74.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c4_1\" x=\"26.0\" y=\"74.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c4_2\" x=\"42.0\" y=\"74.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c4_3\" x=\"58.0\" y=\"74.0\" width=\"16.0\" height=\"16.0\"/>"],["<rect data-r=\"c4_4\" x=\"74.0\" y=\"74.0\" width=\"16.0\" height=\"16.0\"/>"]]},
+  {id:"deep_sky_h", name:"Deep sky", diff:"hard", regions:[["<rect data-r=\"sky\" x=\"10\" y=\"10\" width=\"80\" height=\"80\" rx=\"6\"/>"],["<polygon data-r=\"moon\" points=\"30,28 41,33 34,45 25,40\"/>"],["<circle data-r=\"st0\" cx=\"37\" cy=\"29\" r=\"2\"/>"],["<circle data-r=\"st1\" cx=\"68\" cy=\"41\" r=\"2\"/>"],["<circle data-r=\"st2\" cx=\"25\" cy=\"44\" r=\"2\"/>"],["<circle data-r=\"st3\" cx=\"42\" cy=\"74\" r=\"3\"/>"],["<circle data-r=\"st4\" cx=\"58\" cy=\"36\" r=\"2\"/>"],["<circle data-r=\"st5\" cx=\"66\" cy=\"49\" r=\"2\"/>"],["<circle data-r=\"st6\" cx=\"79\" cy=\"44\" r=\"2\"/>"],["<circle data-r=\"st7\" cx=\"55\" cy=\"38\" r=\"3\"/>"],["<circle data-r=\"st8\" cx=\"56\" cy=\"32\" r=\"2\"/>"],["<circle data-r=\"st9\" cx=\"22\" cy=\"62\" r=\"2\"/>"],["<circle data-r=\"st10\" cx=\"69\" cy=\"38\" r=\"2\"/>"],["<circle data-r=\"st11\" cx=\"74\" cy=\"34\" r=\"2\"/>"],["<circle data-r=\"st12\" cx=\"44\" cy=\"37\" r=\"3\"/>"],["<circle data-r=\"st13\" cx=\"60\" cy=\"73\" r=\"3\"/>"],["<circle data-r=\"st14\" cx=\"30\" cy=\"43\" r=\"3\"/>"],["<circle data-r=\"st15\" cx=\"33\" cy=\"62\" r=\"3\"/>"]]},
+  {id:"mosaic_h", name:"Mosaic", diff:"hard", regions:[["<rect data-r=\"c0_0\" x=\"10.0\" y=\"10.0\" width=\"16.0\" height=\"20.0\"/>"],["<rect data-r=\"c0_1\" x=\"26.0\" y=\"10.0\" width=\"16.0\" height=\"20.0\"/>"],["<rect data-r=\"c0_2\" x=\"42.0\" y=\"10.0\" width=\"16.0\" height=\"20.0\"/>"],["<rect data-r=\"c0_3\" x=\"58.0\" y=\"10.0\" width=\"16.0\" height=\"20.0\"/>"],["<rect data-r=\"c0_4\" x=\"74.0\" y=\"10.0\" width=\"16.0\" height=\"20.0\"/>"],["<rect data-r=\"c1_0\" x=\"10.0\" y=\"30.0\" width=\"16.0\" height=\"20.0\"/>"],["<rect data-r=\"c1_1\" x=\"26.0\" y=\"30.0\" width=\"16.0\" height=\"20.0\"/>"],["<rect data-r=\"c1_2\" x=\"42.0\" y=\"30.0\" width=\"16.0\" height=\"20.0\"/>"],["<rect data-r=\"c1_3\" x=\"58.0\" y=\"30.0\" width=\"16.0\" height=\"20.0\"/>"],["<rect data-r=\"c1_4\" x=\"74.0\" y=\"30.0\" width=\"16.0\" height=\"20.0\"/>"],["<rect data-r=\"c2_0\" x=\"10.0\" y=\"50.0\" width=\"16.0\" height=\"20.0\"/>"],["<rect data-r=\"c2_1\" x=\"26.0\" y=\"50.0\" width=\"16.0\" height=\"20.0\"/>"],["<rect data-r=\"c2_2\" x=\"42.0\" y=\"50.0\" width=\"16.0\" height=\"20.0\"/>"],["<rect data-r=\"c2_3\" x=\"58.0\" y=\"50.0\" width=\"16.0\" height=\"20.0\"/>"],["<rect data-r=\"c2_4\" x=\"74.0\" y=\"50.0\" width=\"16.0\" height=\"20.0\"/>"],["<rect data-r=\"c3_0\" x=\"10.0\" y=\"70.0\" width=\"16.0\" height=\"20.0\"/>"],["<rect data-r=\"c3_1\" x=\"26.0\" y=\"70.0\" width=\"16.0\" height=\"20.0\"/>"],["<rect data-r=\"c3_2\" x=\"42.0\" y=\"70.0\" width=\"16.0\" height=\"20.0\"/>"],["<rect data-r=\"c3_3\" x=\"58.0\" y=\"70.0\" width=\"16.0\" height=\"20.0\"/>"],["<rect data-r=\"c3_4\" x=\"74.0\" y=\"70.0\" width=\"16.0\" height=\"20.0\"/>"]]},
+  {id:"sun_mandala_h", name:"Sun mandala", diff:"hard", regions:[["<circle data-r=\"c\" cx=\"50\" cy=\"50\" r=\"7\"/>"],["<circle data-r=\"r0p0\" cx=\"62.0\" cy=\"50.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p1\" cx=\"60.4\" cy=\"56.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p2\" cx=\"56.0\" cy=\"60.4\" r=\"5.0\"/>"],["<circle data-r=\"r0p3\" cx=\"50.0\" cy=\"62.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p4\" cx=\"44.0\" cy=\"60.4\" r=\"5.0\"/>"],["<circle data-r=\"r0p5\" cx=\"39.6\" cy=\"56.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p6\" cx=\"38.0\" cy=\"50.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p7\" cx=\"39.6\" cy=\"44.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p8\" cx=\"44.0\" cy=\"39.6\" r=\"5.0\"/>"],["<circle data-r=\"r0p9\" cx=\"50.0\" cy=\"38.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p10\" cx=\"56.0\" cy=\"39.6\" r=\"5.0\"/>"],["<circle data-r=\"r0p11\" cx=\"60.4\" cy=\"44.0\" r=\"5.0\"/>"],["<circle data-r=\"r1p0\" cx=\"72.0\" cy=\"56.8\" r=\"4.4\"/>"],["<circle data-r=\"r1p1\" cx=\"65.6\" cy=\"66.9\" r=\"4.4\"/>"],["<circle data-r=\"r1p2\" cx=\"55.1\" cy=\"72.4\" r=\"4.4\"/>"],["<circle data-r=\"r1p3\" cx=\"43.2\" cy=\"72.0\" r=\"4.4\"/>"],["<circle data-r=\"r1p4\" cx=\"33.1\" cy=\"65.6\" r=\"4.4\"/>"],["<circle data-r=\"r1p5\" cx=\"27.6\" cy=\"55.1\" r=\"4.4\"/>"],["<circle data-r=\"r1p6\" cx=\"28.0\" cy=\"43.2\" r=\"4.4\"/>"],["<circle data-r=\"r1p7\" cx=\"34.4\" cy=\"33.1\" r=\"4.4\"/>"],["<circle data-r=\"r1p8\" cx=\"44.9\" cy=\"27.6\" r=\"4.4\"/>"],["<circle data-r=\"r1p9\" cx=\"56.8\" cy=\"28.0\" r=\"4.4\"/>"],["<circle data-r=\"r1p10\" cx=\"66.9\" cy=\"34.4\" r=\"4.4\"/>"],["<circle data-r=\"r1p11\" cx=\"72.4\" cy=\"44.9\" r=\"4.4\"/>"],["<circle data-r=\"r2p0\" cx=\"78.1\" cy=\"69.2\" r=\"3.8\"/>"],["<circle data-r=\"r2p1\" cx=\"64.7\" cy=\"80.7\" r=\"3.8\"/>"],["<circle data-r=\"r2p2\" cx=\"47.4\" cy=\"83.9\" r=\"3.8\"/>"],["<circle data-r=\"r2p3\" cx=\"30.8\" cy=\"78.1\" r=\"3.8\"/>"],["<circle data-r=\"r2p4\" cx=\"19.3\" cy=\"64.7\" r=\"3.8\"/>"],["<circle data-r=\"r2p5\" cx=\"16.1\" cy=\"47.4\" r=\"3.8\"/>"],["<circle data-r=\"r2p6\" cx=\"21.9\" cy=\"30.8\" r=\"3.8\"/>"],["<circle data-r=\"r2p7\" cx=\"35.3\" cy=\"19.3\" r=\"3.8\"/>"],["<circle data-r=\"r2p8\" cx=\"52.6\" cy=\"16.1\" r=\"3.8\"/>"],["<circle data-r=\"r2p9\" cx=\"69.2\" cy=\"21.9\" r=\"3.8\"/>"],["<circle data-r=\"r2p10\" cx=\"80.7\" cy=\"35.3\" r=\"3.8\"/>"],["<circle data-r=\"r2p11\" cx=\"83.9\" cy=\"52.6\" r=\"3.8\"/>"]]},
+  {id:"star_field_h", name:"Star field", diff:"hard", regions:[["<rect data-r=\"sky\" x=\"10\" y=\"10\" width=\"80\" height=\"80\" rx=\"6\"/>"],["<polygon data-r=\"moon\" points=\"30,28 41,33 34,45 25,40\"/>"],["<circle data-r=\"st0\" cx=\"64\" cy=\"63\" r=\"2\"/>"],["<circle data-r=\"st1\" cx=\"58\" cy=\"60\" r=\"2\"/>"],["<circle data-r=\"st2\" cx=\"54\" cy=\"66\" r=\"2\"/>"],["<circle data-r=\"st3\" cx=\"30\" cy=\"49\" r=\"3\"/>"],["<circle data-r=\"st4\" cx=\"37\" cy=\"60\" r=\"2\"/>"],["<circle data-r=\"st5\" cx=\"63\" cy=\"40\" r=\"2\"/>"],["<circle data-r=\"st6\" cx=\"34\" cy=\"72\" r=\"2\"/>"],["<circle data-r=\"st7\" cx=\"71\" cy=\"40\" r=\"3\"/>"],["<circle data-r=\"st8\" cx=\"37\" cy=\"24\" r=\"2\"/>"],["<circle data-r=\"st9\" cx=\"78\" cy=\"56\" r=\"3\"/>"],["<circle data-r=\"st10\" cx=\"33\" cy=\"61\" r=\"3\"/>"],["<circle data-r=\"st11\" cx=\"45\" cy=\"61\" r=\"3\"/>"],["<circle data-r=\"st12\" cx=\"29\" cy=\"36\" r=\"2\"/>"],["<circle data-r=\"st13\" cx=\"35\" cy=\"67\" r=\"3\"/>"],["<circle data-r=\"st14\" cx=\"67\" cy=\"57\" r=\"3\"/>"],["<circle data-r=\"st15\" cx=\"77\" cy=\"57\" r=\"3\"/>"],["<circle data-r=\"st16\" cx=\"43\" cy=\"34\" r=\"2\"/>"],["<circle data-r=\"st17\" cx=\"52\" cy=\"51\" r=\"2\"/>"]]},
+  {id:"butterfly_detail_h", name:"Butterfly detail", diff:"hard", regions:[["<ellipse data-r=\"wtl\" cx=\"34\" cy=\"38\" rx=\"18\" ry=\"15\"/>"],["<ellipse data-r=\"wtr\" cx=\"66\" cy=\"38\" rx=\"18\" ry=\"15\"/>"],["<ellipse data-r=\"wbl\" cx=\"37\" cy=\"62\" rx=\"14\" ry=\"13\"/>"],["<ellipse data-r=\"wbr\" cx=\"63\" cy=\"62\" rx=\"14\" ry=\"13\"/>"],["<rect data-r=\"bod\" x=\"48\" y=\"30\" width=\"4\" height=\"42\" rx=\"2\"/>"],["<circle data-r=\"s0\" cx=\"28\" cy=\"38\" r=\"3\"/>"],["<circle data-r=\"s1\" cx=\"66\" cy=\"38\" r=\"3\"/>"],["<circle data-r=\"s2\" cx=\"40\" cy=\"45\" r=\"3\"/>"],["<circle data-r=\"s3\" cx=\"60\" cy=\"45\" r=\"3\"/>"],["<circle data-r=\"s4\" cx=\"34\" cy=\"52\" r=\"3\"/>"],["<circle data-r=\"s5\" cx=\"72\" cy=\"52\" r=\"3\"/>"],["<circle data-r=\"s6\" cx=\"28\" cy=\"59\" r=\"3\"/>"],["<circle data-r=\"s7\" cx=\"66\" cy=\"59\" r=\"3\"/>"],["<circle data-r=\"s8\" cx=\"40\" cy=\"66\" r=\"3\"/>"],["<circle data-r=\"s9\" cx=\"60\" cy=\"66\" r=\"3\"/>"]]},
+  {id:"peacock_full_h", name:"Peacock full", diff:"hard", regions:[["<ellipse data-r=\"body\" cx=\"50\" cy=\"70\" rx=\"8\" ry=\"14\"/>"],["<circle data-r=\"f0\" cx=\"10\" cy=\"30\" r=\"5\"/>"],["<circle data-r=\"f1\" cx=\"18\" cy=\"32\" r=\"5\"/>"],["<circle data-r=\"f2\" cx=\"26\" cy=\"34\" r=\"5\"/>"],["<circle data-r=\"f3\" cx=\"34\" cy=\"36\" r=\"5\"/>"],["<circle data-r=\"f4\" cx=\"42\" cy=\"38\" r=\"5\"/>"],["<circle data-r=\"f5\" cx=\"50\" cy=\"40\" r=\"5\"/>"],["<circle data-r=\"f6\" cx=\"58\" cy=\"38\" r=\"5\"/>"],["<circle data-r=\"f7\" cx=\"66\" cy=\"36\" r=\"5\"/>"],["<circle data-r=\"f8\" cx=\"74\" cy=\"34\" r=\"5\"/>"],["<circle data-r=\"f9\" cx=\"82\" cy=\"32\" r=\"5\"/>"],["<circle data-r=\"f10\" cx=\"90\" cy=\"30\" r=\"5\"/>"],["<circle data-r=\"fi0\" cx=\"10\" cy=\"30\" r=\"2\"/>"],["<circle data-r=\"fi1\" cx=\"18\" cy=\"32\" r=\"2\"/>"],["<circle data-r=\"fi2\" cx=\"26\" cy=\"34\" r=\"2\"/>"],["<circle data-r=\"fi3\" cx=\"34\" cy=\"36\" r=\"2\"/>"],["<circle data-r=\"fi4\" cx=\"42\" cy=\"38\" r=\"2\"/>"],["<circle data-r=\"fi5\" cx=\"50\" cy=\"40\" r=\"2\"/>"],["<circle data-r=\"fi6\" cx=\"58\" cy=\"38\" r=\"2\"/>"],["<circle data-r=\"fi7\" cx=\"66\" cy=\"36\" r=\"2\"/>"],["<circle data-r=\"fi8\" cx=\"74\" cy=\"34\" r=\"2\"/>"],["<circle data-r=\"fi9\" cx=\"82\" cy=\"32\" r=\"2\"/>"],["<circle data-r=\"fi10\" cx=\"90\" cy=\"30\" r=\"2\"/>"]]},
+  {id:"rose_window_h", name:"Rose window", diff:"hard", regions:[["<circle data-r=\"c\" cx=\"50\" cy=\"50\" r=\"7\"/>"],["<circle data-r=\"r0p0\" cx=\"62.0\" cy=\"50.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p1\" cx=\"59.2\" cy=\"57.7\" r=\"5.0\"/>"],["<circle data-r=\"r0p2\" cx=\"52.1\" cy=\"61.8\" r=\"5.0\"/>"],["<circle data-r=\"r0p3\" cx=\"44.0\" cy=\"60.4\" r=\"5.0\"/>"],["<circle data-r=\"r0p4\" cx=\"38.7\" cy=\"54.1\" r=\"5.0\"/>"],["<circle data-r=\"r0p5\" cx=\"38.7\" cy=\"45.9\" r=\"5.0\"/>"],["<circle data-r=\"r0p6\" cx=\"44.0\" cy=\"39.6\" r=\"5.0\"/>"],["<circle data-r=\"r0p7\" cx=\"52.1\" cy=\"38.2\" r=\"5.0\"/>"],["<circle data-r=\"r0p8\" cx=\"59.2\" cy=\"42.3\" r=\"5.0\"/>"],["<circle data-r=\"r1p0\" cx=\"72.0\" cy=\"56.8\" r=\"4.4\"/>"],["<circle data-r=\"r1p1\" cx=\"62.5\" cy=\"69.3\" r=\"4.4\"/>"],["<circle data-r=\"r1p2\" cx=\"47.1\" cy=\"72.8\" r=\"4.4\"/>"],["<circle data-r=\"r1p3\" cx=\"33.1\" cy=\"65.6\" r=\"4.4\"/>"],["<circle data-r=\"r1p4\" cx=\"27.0\" cy=\"51.1\" r=\"4.4\"/>"],["<circle data-r=\"r1p5\" cx=\"31.7\" cy=\"36.1\" r=\"4.4\"/>"],["<circle data-r=\"r1p6\" cx=\"44.9\" cy=\"27.6\" r=\"4.4\"/>"],["<circle data-r=\"r1p7\" cx=\"60.5\" cy=\"29.5\" r=\"4.4\"/>"],["<circle data-r=\"r1p8\" cx=\"71.2\" cy=\"41.1\" r=\"4.4\"/>"],["<circle data-r=\"r2p0\" cx=\"78.1\" cy=\"69.2\" r=\"3.8\"/>"],["<circle data-r=\"r2p1\" cx=\"59.2\" cy=\"82.7\" r=\"3.8\"/>"],["<circle data-r=\"r2p2\" cx=\"36.0\" cy=\"81.0\" r=\"3.8\"/>"],["<circle data-r=\"r2p3\" cx=\"19.3\" cy=\"64.7\" r=\"3.8\"/>"],["<circle data-r=\"r2p4\" cx=\"17.1\" cy=\"41.6\" r=\"3.8\"/>"],["<circle data-r=\"r2p5\" cx=\"30.2\" cy=\"22.4\" r=\"3.8\"/>"],["<circle data-r=\"r2p6\" cx=\"52.6\" cy=\"16.1\" r=\"3.8\"/>"],["<circle data-r=\"r2p7\" cx=\"73.8\" cy=\"25.7\" r=\"3.8\"/>"],["<circle data-r=\"r2p8\" cx=\"83.8\" cy=\"46.7\" r=\"3.8\"/>"]]},
+  {id:"honeycomb_h", name:"Honeycomb", diff:"hard", regions:[["<rect data-r=\"c0_0\" x=\"10.0\" y=\"10.0\" width=\"20.0\" height=\"16.0\"/>"],["<rect data-r=\"c0_1\" x=\"30.0\" y=\"10.0\" width=\"20.0\" height=\"16.0\"/>"],["<rect data-r=\"c0_2\" x=\"50.0\" y=\"10.0\" width=\"20.0\" height=\"16.0\"/>"],["<rect data-r=\"c0_3\" x=\"70.0\" y=\"10.0\" width=\"20.0\" height=\"16.0\"/>"],["<rect data-r=\"c1_0\" x=\"10.0\" y=\"26.0\" width=\"20.0\" height=\"16.0\"/>"],["<rect data-r=\"c1_1\" x=\"30.0\" y=\"26.0\" width=\"20.0\" height=\"16.0\"/>"],["<rect data-r=\"c1_2\" x=\"50.0\" y=\"26.0\" width=\"20.0\" height=\"16.0\"/>"],["<rect data-r=\"c1_3\" x=\"70.0\" y=\"26.0\" width=\"20.0\" height=\"16.0\"/>"],["<rect data-r=\"c2_0\" x=\"10.0\" y=\"42.0\" width=\"20.0\" height=\"16.0\"/>"],["<rect data-r=\"c2_1\" x=\"30.0\" y=\"42.0\" width=\"20.0\" height=\"16.0\"/>"],["<rect data-r=\"c2_2\" x=\"50.0\" y=\"42.0\" width=\"20.0\" height=\"16.0\"/>"],["<rect data-r=\"c2_3\" x=\"70.0\" y=\"42.0\" width=\"20.0\" height=\"16.0\"/>"],["<rect data-r=\"c3_0\" x=\"10.0\" y=\"58.0\" width=\"20.0\" height=\"16.0\"/>"],["<rect data-r=\"c3_1\" x=\"30.0\" y=\"58.0\" width=\"20.0\" height=\"16.0\"/>"],["<rect data-r=\"c3_2\" x=\"50.0\" y=\"58.0\" width=\"20.0\" height=\"16.0\"/>"],["<rect data-r=\"c3_3\" x=\"70.0\" y=\"58.0\" width=\"20.0\" height=\"16.0\"/>"],["<rect data-r=\"c4_0\" x=\"10.0\" y=\"74.0\" width=\"20.0\" height=\"16.0\"/>"],["<rect data-r=\"c4_1\" x=\"30.0\" y=\"74.0\" width=\"20.0\" height=\"16.0\"/>"],["<rect data-r=\"c4_2\" x=\"50.0\" y=\"74.0\" width=\"20.0\" height=\"16.0\"/>"],["<rect data-r=\"c4_3\" x=\"70.0\" y=\"74.0\" width=\"20.0\" height=\"16.0\"/>"]]},
+  {id:"garden_path_h", name:"Garden path", diff:"hard", regions:[["<rect data-r=\"sky\" x=\"10\" y=\"10\" width=\"80\" height=\"40\"/>"],["<circle data-r=\"fl0\" cx=\"18\" cy=\"58\" r=\"5\"/>"],["<circle data-r=\"fl1\" cx=\"34\" cy=\"58\" r=\"5\"/>"],["<circle data-r=\"fl2\" cx=\"50\" cy=\"58\" r=\"5\"/>"],["<circle data-r=\"fl3\" cx=\"66\" cy=\"58\" r=\"5\"/>"],["<circle data-r=\"fl4\" cx=\"82\" cy=\"58\" r=\"5\"/>"],["<circle data-r=\"fl5\" cx=\"18\" cy=\"72\" r=\"5\"/>"],["<circle data-r=\"fl6\" cx=\"34\" cy=\"72\" r=\"5\"/>"],["<circle data-r=\"fl7\" cx=\"50\" cy=\"72\" r=\"5\"/>"],["<circle data-r=\"fl8\" cx=\"66\" cy=\"72\" r=\"5\"/>"],["<circle data-r=\"fl9\" cx=\"82\" cy=\"72\" r=\"5\"/>"],["<rect data-r=\"st0\" x=\"17\" y=\"62\" width=\"2\" height=\"10\"/>"],["<rect data-r=\"st1\" x=\"33\" y=\"62\" width=\"2\" height=\"10\"/>"],["<rect data-r=\"st2\" x=\"49\" y=\"62\" width=\"2\" height=\"10\"/>"],["<rect data-r=\"st3\" x=\"65\" y=\"62\" width=\"2\" height=\"10\"/>"],["<rect data-r=\"st4\" x=\"81\" y=\"62\" width=\"2\" height=\"10\"/>"],["<rect data-r=\"st5\" x=\"17\" y=\"76\" width=\"2\" height=\"10\"/>"],["<rect data-r=\"st6\" x=\"33\" y=\"76\" width=\"2\" height=\"10\"/>"],["<rect data-r=\"st7\" x=\"49\" y=\"76\" width=\"2\" height=\"10\"/>"],["<rect data-r=\"st8\" x=\"65\" y=\"76\" width=\"2\" height=\"10\"/>"],["<rect data-r=\"st9\" x=\"81\" y=\"76\" width=\"2\" height=\"10\"/>"]]},
+  {id:"spiral_h", name:"Spiral", diff:"hard", regions:[["<circle data-r=\"c\" cx=\"50\" cy=\"50\" r=\"7\"/>"],["<circle data-r=\"r0p0\" cx=\"62.0\" cy=\"50.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p1\" cx=\"58.5\" cy=\"58.5\" r=\"5.0\"/>"],["<circle data-r=\"r0p2\" cx=\"50.0\" cy=\"62.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p3\" cx=\"41.5\" cy=\"58.5\" r=\"5.0\"/>"],["<circle data-r=\"r0p4\" cx=\"38.0\" cy=\"50.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p5\" cx=\"41.5\" cy=\"41.5\" r=\"5.0\"/>"],["<circle data-r=\"r0p6\" cx=\"50.0\" cy=\"38.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p7\" cx=\"58.5\" cy=\"41.5\" r=\"5.0\"/>"],["<circle data-r=\"r1p0\" cx=\"72.0\" cy=\"56.8\" r=\"4.4\"/>"],["<circle data-r=\"r1p1\" cx=\"60.7\" cy=\"70.3\" r=\"4.4\"/>"],["<circle data-r=\"r1p2\" cx=\"43.2\" cy=\"72.0\" r=\"4.4\"/>"],["<circle data-r=\"r1p3\" cx=\"29.7\" cy=\"60.7\" r=\"4.4\"/>"],["<circle data-r=\"r1p4\" cx=\"28.0\" cy=\"43.2\" r=\"4.4\"/>"],["<circle data-r=\"r1p5\" cx=\"39.3\" cy=\"29.7\" r=\"4.4\"/>"],["<circle data-r=\"r1p6\" cx=\"56.8\" cy=\"28.0\" r=\"4.4\"/>"],["<circle data-r=\"r1p7\" cx=\"70.3\" cy=\"39.3\" r=\"4.4\"/>"],["<circle data-r=\"r2p0\" cx=\"78.1\" cy=\"69.2\" r=\"3.8\"/>"],["<circle data-r=\"r2p1\" cx=\"56.3\" cy=\"83.4\" r=\"3.8\"/>"],["<circle data-r=\"r2p2\" cx=\"30.8\" cy=\"78.1\" r=\"3.8\"/>"],["<circle data-r=\"r2p3\" cx=\"16.6\" cy=\"56.3\" r=\"3.8\"/>"],["<circle data-r=\"r2p4\" cx=\"21.9\" cy=\"30.8\" r=\"3.8\"/>"],["<circle data-r=\"r2p5\" cx=\"43.7\" cy=\"16.6\" r=\"3.8\"/>"],["<circle data-r=\"r2p6\" cx=\"69.2\" cy=\"21.9\" r=\"3.8\"/>"],["<circle data-r=\"r2p7\" cx=\"83.4\" cy=\"43.7\" r=\"3.8\"/>"],["<circle data-r=\"r3p0\" cx=\"78.0\" cy=\"85.2\" r=\"3.2\"/>"],["<circle data-r=\"r3p1\" cx=\"44.9\" cy=\"94.7\" r=\"3.2\"/>"],["<circle data-r=\"r3p2\" cx=\"14.8\" cy=\"78.0\" r=\"3.2\"/>"],["<circle data-r=\"r3p3\" cx=\"5.3\" cy=\"44.9\" r=\"3.2\"/>"],["<circle data-r=\"r3p4\" cx=\"22.0\" cy=\"14.8\" r=\"3.2\"/>"],["<circle data-r=\"r3p5\" cx=\"55.1\" cy=\"5.3\" r=\"3.2\"/>"],["<circle data-r=\"r3p6\" cx=\"85.2\" cy=\"22.0\" r=\"3.2\"/>"],["<circle data-r=\"r3p7\" cx=\"94.7\" cy=\"55.1\" r=\"3.2\"/>"]]},
+  {id:"gem_cluster_h", name:"Gem cluster", diff:"hard", regions:[["<polygon data-r=\"t0\" points=\"64.0,50.0 81.3,63.2 81.3,36.8\"/>"],["<polygon data-r=\"t1\" points=\"61.3,58.2 67.6,79.1 83.1,57.7\"/>"],["<polygon data-r=\"t2\" points=\"54.3,63.3 47.1,83.9 72.3,75.7\"/>"],["<polygon data-r=\"t3\" points=\"45.7,63.3 27.7,75.7 52.9,83.9\"/>"],["<polygon data-r=\"t4\" points=\"38.7,58.2 16.9,57.7 32.4,79.1\"/>"],["<polygon data-r=\"t5\" points=\"36.0,50.0 18.7,36.8 18.7,63.2\"/>"],["<polygon data-r=\"t6\" points=\"38.7,41.8 32.4,20.9 16.9,42.3\"/>"],["<polygon data-r=\"t7\" points=\"45.7,36.7 52.9,16.1 27.7,24.3\"/>"],["<polygon data-r=\"t8\" points=\"54.3,36.7 72.3,24.3 47.1,16.1\"/>"],["<polygon data-r=\"t9\" points=\"61.3,41.8 83.1,42.3 67.6,20.9\"/>"],["<circle data-r=\"core\" cx=\"50\" cy=\"50\" r=\"13\"/>"]]},
+  {id:"snowflake_h", name:"Snowflake", diff:"hard", regions:[["<circle data-r=\"c\" cx=\"50\" cy=\"50\" r=\"7\"/>"],["<circle data-r=\"r0p0\" cx=\"62.0\" cy=\"50.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p1\" cx=\"60.4\" cy=\"56.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p2\" cx=\"56.0\" cy=\"60.4\" r=\"5.0\"/>"],["<circle data-r=\"r0p3\" cx=\"50.0\" cy=\"62.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p4\" cx=\"44.0\" cy=\"60.4\" r=\"5.0\"/>"],["<circle data-r=\"r0p5\" cx=\"39.6\" cy=\"56.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p6\" cx=\"38.0\" cy=\"50.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p7\" cx=\"39.6\" cy=\"44.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p8\" cx=\"44.0\" cy=\"39.6\" r=\"5.0\"/>"],["<circle data-r=\"r0p9\" cx=\"50.0\" cy=\"38.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p10\" cx=\"56.0\" cy=\"39.6\" r=\"5.0\"/>"],["<circle data-r=\"r0p11\" cx=\"60.4\" cy=\"44.0\" r=\"5.0\"/>"],["<circle data-r=\"r1p0\" cx=\"72.0\" cy=\"56.8\" r=\"4.4\"/>"],["<circle data-r=\"r1p1\" cx=\"65.6\" cy=\"66.9\" r=\"4.4\"/>"],["<circle data-r=\"r1p2\" cx=\"55.1\" cy=\"72.4\" r=\"4.4\"/>"],["<circle data-r=\"r1p3\" cx=\"43.2\" cy=\"72.0\" r=\"4.4\"/>"],["<circle data-r=\"r1p4\" cx=\"33.1\" cy=\"65.6\" r=\"4.4\"/>"],["<circle data-r=\"r1p5\" cx=\"27.6\" cy=\"55.1\" r=\"4.4\"/>"],["<circle data-r=\"r1p6\" cx=\"28.0\" cy=\"43.2\" r=\"4.4\"/>"],["<circle data-r=\"r1p7\" cx=\"34.4\" cy=\"33.1\" r=\"4.4\"/>"],["<circle data-r=\"r1p8\" cx=\"44.9\" cy=\"27.6\" r=\"4.4\"/>"],["<circle data-r=\"r1p9\" cx=\"56.8\" cy=\"28.0\" r=\"4.4\"/>"],["<circle data-r=\"r1p10\" cx=\"66.9\" cy=\"34.4\" r=\"4.4\"/>"],["<circle data-r=\"r1p11\" cx=\"72.4\" cy=\"44.9\" r=\"4.4\"/>"]]},
+  {id:"quilt_h", name:"Quilt", diff:"hard", regions:[["<rect data-r=\"c0_0\" x=\"10.0\" y=\"10.0\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c0_1\" x=\"30.0\" y=\"10.0\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c0_2\" x=\"50.0\" y=\"10.0\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c0_3\" x=\"70.0\" y=\"10.0\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c1_0\" x=\"10.0\" y=\"23.3\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c1_1\" x=\"30.0\" y=\"23.3\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c1_2\" x=\"50.0\" y=\"23.3\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c1_3\" x=\"70.0\" y=\"23.3\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c2_0\" x=\"10.0\" y=\"36.7\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c2_1\" x=\"30.0\" y=\"36.7\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c2_2\" x=\"50.0\" y=\"36.7\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c2_3\" x=\"70.0\" y=\"36.7\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c3_0\" x=\"10.0\" y=\"50.0\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c3_1\" x=\"30.0\" y=\"50.0\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c3_2\" x=\"50.0\" y=\"50.0\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c3_3\" x=\"70.0\" y=\"50.0\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c4_0\" x=\"10.0\" y=\"63.3\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c4_1\" x=\"30.0\" y=\"63.3\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c4_2\" x=\"50.0\" y=\"63.3\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c4_3\" x=\"70.0\" y=\"63.3\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c5_0\" x=\"10.0\" y=\"76.7\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c5_1\" x=\"30.0\" y=\"76.7\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c5_2\" x=\"50.0\" y=\"76.7\" width=\"20.0\" height=\"13.3\"/>"],["<rect data-r=\"c5_3\" x=\"70.0\" y=\"76.7\" width=\"20.0\" height=\"13.3\"/>"]]},
+  {id:"galaxy_h", name:"Galaxy", diff:"hard", regions:[["<rect data-r=\"sky\" x=\"10\" y=\"10\" width=\"80\" height=\"80\" rx=\"6\"/>"],["<polygon data-r=\"moon\" points=\"30,28 41,33 34,45 25,40\"/>"],["<circle data-r=\"st0\" cx=\"68\" cy=\"23\" r=\"2\"/>"],["<circle data-r=\"st1\" cx=\"29\" cy=\"60\" r=\"2\"/>"],["<circle data-r=\"st2\" cx=\"70\" cy=\"63\" r=\"3\"/>"],["<circle data-r=\"st3\" cx=\"58\" cy=\"24\" r=\"3\"/>"],["<circle data-r=\"st4\" cx=\"44\" cy=\"58\" r=\"3\"/>"],["<circle data-r=\"st5\" cx=\"53\" cy=\"36\" r=\"2\"/>"],["<circle data-r=\"st6\" cx=\"63\" cy=\"66\" r=\"2\"/>"],["<circle data-r=\"st7\" cx=\"63\" cy=\"54\" r=\"3\"/>"],["<circle data-r=\"st8\" cx=\"69\" cy=\"61\" r=\"3\"/>"],["<circle data-r=\"st9\" cx=\"27\" cy=\"38\" r=\"3\"/>"],["<circle data-r=\"st10\" cx=\"30\" cy=\"49\" r=\"2\"/>"],["<circle data-r=\"st11\" cx=\"66\" cy=\"66\" r=\"3\"/>"],["<circle data-r=\"st12\" cx=\"52\" cy=\"68\" r=\"2\"/>"],["<circle data-r=\"st13\" cx=\"52\" cy=\"26\" r=\"3\"/>"],["<circle data-r=\"st14\" cx=\"73\" cy=\"60\" r=\"2\"/>"],["<circle data-r=\"st15\" cx=\"29\" cy=\"43\" r=\"2\"/>"],["<circle data-r=\"st16\" cx=\"54\" cy=\"69\" r=\"2\"/>"],["<circle data-r=\"st17\" cx=\"58\" cy=\"40\" r=\"3\"/>"],["<circle data-r=\"st18\" cx=\"21\" cy=\"27\" r=\"3\"/>"],["<circle data-r=\"st19\" cx=\"76\" cy=\"73\" r=\"3\"/>"]]},
+  {id:"pinwheel_m", name:"Pinwheel", diff:"medium", regions:[["<circle data-r=\"c\" cx=\"50\" cy=\"50\" r=\"7\"/>"],["<circle data-r=\"r0p0\" cx=\"62.0\" cy=\"50.0\" r=\"5.0\"/>"],["<circle data-r=\"r0p1\" cx=\"57.5\" cy=\"59.4\" r=\"5.0\"/>"],["<circle data-r=\"r0p2\" cx=\"47.3\" cy=\"61.7\" r=\"5.0\"/>"],["<circle data-r=\"r0p3\" cx=\"39.2\" cy=\"55.2\" r=\"5.0\"/>"],["<circle data-r=\"r0p4\" cx=\"39.2\" cy=\"44.8\" r=\"5.0\"/>"],["<circle data-r=\"r0p5\" cx=\"47.3\" cy=\"38.3\" r=\"5.0\"/>"],["<circle data-r=\"r0p6\" cx=\"57.5\" cy=\"40.6\" r=\"5.0\"/>"],["<circle data-r=\"r1p0\" cx=\"72.0\" cy=\"56.8\" r=\"4.4\"/>"],["<circle data-r=\"r1p1\" cx=\"58.4\" cy=\"71.4\" r=\"4.4\"/>"],["<circle data-r=\"r1p2\" cx=\"38.5\" cy=\"69.9\" r=\"4.4\"/>"],["<circle data-r=\"r1p3\" cx=\"27.3\" cy=\"53.4\" r=\"4.4\"/>"],["<circle data-r=\"r1p4\" cx=\"33.2\" cy=\"34.3\" r=\"4.4\"/>"],["<circle data-r=\"r1p5\" cx=\"51.7\" cy=\"27.1\" r=\"4.4\"/>"],["<circle data-r=\"r1p6\" cx=\"69.0\" cy=\"37.1\" r=\"4.4\"/>"]]},
 ];
 let curSheet=null, curColor=COLOR_PALETTE[0];
 function sheetSvg(sheet,fills,forCard){
@@ -1362,28 +1557,34 @@ function sheetSvg(sheet,fills,forCard){
 }
 function loadGallery(){
   const c=Mock.getColoring(), g=$('colorGallery');
-  const activeLock=c.active;   // if a sheet is in progress, others are locked until it's done
-  g.innerHTML=SHEETS.map(s=>{
-    const done=c.done[s.id], active=c.active===s.id;
-    const locked=activeLock && !active && !done;
-    const tag=done?'<span class="cc-tag done">done</span>':(active?'<span class="cc-tag">in progress</span>':'');
-    return `<div class="color-card ${locked?'locked':''}" onclick="${locked?'':'colorPick(\''+s.id+'\')'}">
-      <svg viewBox="0 0 100 100">${sheetSvg(s,c.fills[s.id],true)}</svg>
-      ${tag}<div class="cc-label">${s.name}</div>
-    </div>`;
-  }).join('');
+  const groups=[['easy','Easy'],['medium','Medium'],['hard','Hard']];
+  let html='';
+  groups.forEach(([d,label])=>{
+    const list=SHEETS.filter(s=>s.diff===d);
+    const doneCount=list.filter(s=>c.done[s.id]).length;
+    html+=`<div class="gal-head"><span>${label}</span><span class="gal-count">${doneCount}/${list.length}</span></div>`;
+    html+='<div class="gal-grid">'+list.map(s=>{
+      const done=c.done[s.id], active=c.active===s.id;
+      const tag=done?'<span class="cc-tag done">done</span>':(active?'<span class="cc-tag">in progress</span>':'');
+      return `<div class="color-card" onclick="colorPick('${s.id}')">
+        <svg viewBox="0 0 100 100">${sheetSvg(s,c.fills[s.id],true)}</svg>
+        ${tag}<div class="cc-label">${s.name}</div>
+      </div>`;
+    }).join('')+'</div>';
+  });
+  g.innerHTML=html;
   $('colorGallery').style.display='';
   $('colorStage').style.display='none';
 }
 function colorPick(id){
   const c=Mock.getColoring();
-  if(c.active && c.active!==id && !c.done[id]){ toast('Finish the one in progress first'); return; }
-  if(c.done[id]){ toast('That one\u2019s already done'); return; }
   curSheet=SHEETS.find(s=>s.id===id);
-  if(!c.active){ Mock.setActive(id); }
+  if(!curSheet)return;
+  if(c.active!==id) Mock.setActive(id);
   $('csName').textContent=curSheet.name;
   $('colorSvg').innerHTML=sheetSvg(curSheet,c.fills[id],false);
   renderPalette();
+  updateDoneBar();
   $('colorGallery').style.display='none';
   $('colorStage').style.display='';
 }
@@ -1400,12 +1601,28 @@ function colorFill(region){
 }
 function colorComplete(){
   if(!curSheet)return;
-  Mock.completeSheet(curSheet.id);
-  toast('Nice \u2014 sheet complete');
-  curSheet=null;
-  loadGallery();
+  const st=Mock.agreeState(curSheet.id);
+  const mine=st[myMark()];
+  if(mine){
+    // I already proposed — tapping again withdraws my agreement
+    Mock.unproposeDone(curSheet.id,myMark());
+    updateDoneBar();
+    return;
+  }
+  const r=Mock.proposeDone(curSheet.id,myMark());
+  if(r.done){ toast('Both agreed \u2014 sheet complete'); curSheet=null; loadGallery(); }
+  else { toast('Waiting for '+theirName()+' to agree'); updateDoneBar(); }
 }
-function colorExit(){ loadGallery(); }
+function updateDoneBar(){
+  if(!curSheet)return;
+  const st=Mock.agreeState(curSheet.id);
+  const btn=$('colorDoneBtn'); if(!btn)return;
+  const mine=st[myMark()], theirs=st[theirMark()];
+  if(mine && !theirs){ btn.textContent='Waiting for '+theirName()+'\u2026'; btn.classList.add('waiting'); }
+  else if(!mine && theirs){ btn.textContent=theirName()+' says done \u2014 agree?'; btn.classList.remove('waiting'); }
+  else { btn.textContent='Mark done'; btn.classList.remove('waiting'); }
+}
+function colorExit(){ curSheet=null; loadGallery(); }
 
 /* ================= PLAY: games + food match ================= */
 /* my side is always 'a' if I'm user_a of the pair, else 'b'. For the mock we
@@ -1450,10 +1667,36 @@ function tttSetMark(m){
   g.marks[mine]=m; g.marks[theirs]=(m==='x'?'o':'x');
   Mock.savePlay(); renderTTT();
 }
+function getWins(){
+  const p=Mock.getPlay();
+  if(!p.wins)p.wins={ttt:{a:0,b:0},dots:{a:0,b:0}};
+  if(!p.wins.ttt)p.wins.ttt={a:0,b:0};
+  if(!p.wins.dots)p.wins.dots={a:0,b:0};
+  return p.wins;
+}
+function recordWin(game,side){
+  if(!side||side==='draw')return;
+  const w=getWins(); w[game][side]=(w[game][side]||0)+1; Mock.savePlay();
+}
+function renderTally(game){
+  const el=$(game+'Tally'); if(!el)return;
+  const w=getWins()[game];
+  const mine=w[myMark()]||0, theirs=w[theirMark()]||0;
+  el.innerHTML='<span class="wt me"><b>'+mine+'</b> '+esc(myName())+'</span>'+
+               '<span class="wt you">'+esc(theirName())+' <b>'+theirs+'</b></span>';
+}
+function nextFirst(g){
+  const p=Mock.getPlay();
+  p.firstStarter=p.firstStarter||{};
+  const last=p.firstStarter[g];
+  const next = last==='a' ? 'b' : 'a';   // alternate; defaults to 'a' first time
+  p.firstStarter[g]=next;
+  return next;
+}
 function resetGame(g){
   const p=Mock.getPlay();
-  if(g==='ttt'){ const old=p.ttt&&p.ttt.marks; p.ttt={board:Array(9).fill(null),turn:'a',winner:null,line:null,marks:old||{a:'x',b:'o'}}; }
-  else if(g==='dots'){ p.dots=freshDots(); }
+  if(g==='ttt'){ const old=p.ttt&&p.ttt.marks; p.ttt={board:Array(9).fill(null),turn:nextFirst('ttt'),winner:null,line:null,marks:old||{a:'x',b:'o'}}; }
+  else if(g==='dots'){ p.dots=freshDots(nextFirst('dots')); }
   Mock.savePlay();
   g==='ttt'?renderTTT():renderDots();
 }
@@ -1480,6 +1723,7 @@ function renderTTT(){
       '<button class="ttt-mk'+(mine==='o'?' on':'')+'" onclick="tttSetMark(\'o\')">\u25EF</button>';
     pick.style.display = g.board.some(Boolean) ? 'none' : 'flex';
   }
+  renderTally('ttt');
   const st=$('tttStatus');
   if(g.winner==='draw')st.textContent='Draw \u2014 tap New';
   else if(g.winner)st.textContent=(g.winner===myMark()?'You won':theirName()+' won')+' \uD83C\uDF89';
@@ -1490,21 +1734,21 @@ function tttTap(i){
   if(g.winner||g.board[i]||g.turn!==myMark())return;
   g.board[i]=myMark();
   const line=TTT_WINS.find(l=>l.every(k=>g.board[k]===myMark()));
-  if(line){ g.winner=myMark(); g.line=line; }
+  if(line){ g.winner=myMark(); g.line=line; recordWin('ttt',myMark()); }
   else if(g.board.every(Boolean)){ g.winner='draw'; }
   else g.turn=theirMark();
   Mock.savePlay(); renderTTT();
 }
 
 /* ---------- Dots & Boxes (3x3 boxes) ---------- */
-const DB_N=3;                 // boxes per side
+const DB_N=5;                 // boxes per side (bigger board)
 const DB_PAD=30, DB_GAP=(320-2*DB_PAD)/DB_N;
-function freshDots(){
+function freshDots(starter){
   // h[r][c] horizontal segments (r:0..N, c:0..N-1); v[r][c] vertical (r:0..N-1,c:0..N)
   const h=[],v=[],owner=[];
   for(let r=0;r<=DB_N;r++){ h.push(Array(DB_N).fill(null)); }
   for(let r=0;r<DB_N;r++){ v.push(Array(DB_N+1).fill(null)); owner.push(Array(DB_N).fill(null)); }
-  return {h,v,owner,turn:'a',score:{a:0,b:0},done:false};
+  return {h,v,owner,turn:starter||'a',score:{a:0,b:0},done:false};
 }
 function ensureDots(){ const p=Mock.getPlay(); if(!p.dots)p.dots=freshDots(); Mock.savePlay(); }
 function renderDots(){
@@ -1535,6 +1779,7 @@ function renderDots(){
   svg.innerHTML=s;
   const sc=$('dotsScore');
   sc.innerHTML=`<span class="me">${esc(myName())}: ${g.score[myMark()]}</span><span class="you">${esc(theirName())}: ${g.score[theirMark()]}</span>`;
+  renderTally('dots');
   const st=$('dotsStatus');
   if(g.done){ const win=g.score.a===g.score.b?'Tie':(g.score[myMark()]>g.score[theirMark()]?'You win':theirName()+' wins'); st.textContent=win+' \uD83C\uDF89'; }
   else st.textContent=(g.turn===myMark()?'Your turn':theirName()+'\u2019s turn');
@@ -1554,7 +1799,10 @@ function dotsTap(kind,r,c){
   if(kind==='h'){ checkBox(r-1,c); checkBox(r,c); }
   else { checkBox(r,c-1); checkBox(r,c); }
   const total=DB_N*DB_N;
-  if(g.score.a+g.score.b>=total){ g.done=true; }
+  if(g.score.a+g.score.b>=total){ g.done=true;
+    const winner = g.score.a===g.score.b ? null : (g.score.a>g.score.b?'a':'b');
+    if(winner) recordWin('dots',winner);
+  }
   else if(closed===0){ g.turn=theirMark(); }  // closing a box grants another turn
   Mock.savePlay(); renderDots();
 }
@@ -1706,8 +1954,51 @@ function spinWheel(){
 function settingsOpen(){
   $('setName').value=(Mock.state.me&&Mock.state.me.name)||'';
   renderThemes(); syncNameMode(); syncCustomBlock();
+  renderBgGrids();
   syncPushToggle();
   $('settingsSheet').classList.add('on');
+}
+const APP_BGS=['none','warm','cool','mint','peach','rose','slate','dusk'];
+const CHAT_BGS=['none','warm','cool','mint','peach','rose','dots','hearts'];
+function bgStyle(kind){
+  const map={
+    none:'var(--paper)', warm:'linear-gradient(160deg,#fbeee4,#f4e6ec)', cool:'linear-gradient(160deg,#e6eefb,#eae4f6)',
+    mint:'linear-gradient(160deg,#e4f6ec,#e4f0f4)', peach:'linear-gradient(160deg,#ffeede,#ffe4e8)',
+    rose:'linear-gradient(160deg,#fbe4ef,#f6e4f0)', slate:'linear-gradient(160deg,#eceef2,#e2e6ee)',
+    dusk:'linear-gradient(160deg,#2a2540,#3a2a3a)', dots:'radial-gradient(#cfd3db 1.2px,#f4f5f7 1.2px)',
+    hearts:'radial-gradient(circle at 50% 40%, rgba(232,74,154,.25) 3px, #fbe9f1 4px)'
+  };
+  return map[kind]||map.none;
+}
+function renderBgGrids(){
+  const prefs=Mock.getPrefs();
+  const cur={ app:prefs.appBg||'none', chat:prefs.chatBg||'none' };
+  const build=(gridId,list,which)=>{
+    const g=$(gridId); if(!g)return; g.innerHTML='';
+    list.forEach(k=>{
+      const sw=document.createElement('div');
+      sw.className='bg-sw'+(cur[which]===k?' on':'');
+      sw.style.background=bgStyle(k);
+      if(k==='dots'||k==='hearts')sw.style.backgroundSize='10px 10px';
+      sw.onclick=()=>{ setBg(which,k); };
+      g.appendChild(sw);
+    });
+  };
+  build('appBgGrid',APP_BGS,'app');
+  build('chatBgGrid',CHAT_BGS,'chat');
+}
+function setBg(which,k){
+  Mock.setPref(which==='app'?'appBg':'chatBg', k);
+  applyBackgrounds();
+  renderBgGrids();
+}
+function applyBackgrounds(){
+  const prefs=Mock.getPrefs();
+  const app=document.querySelector('.app');
+  const a=prefs.appBg||'none', c=prefs.chatBg||'none';
+  if(app){ if(a==='none')app.removeAttribute('data-appbg'); else app.setAttribute('data-appbg',a); }
+  const ct=$('chatThread');
+  if(ct){ if(c==='none')ct.removeAttribute('data-chatbg'); else ct.setAttribute('data-chatbg',c); }
 }
 async function syncPushToggle(){
   let on=false;
