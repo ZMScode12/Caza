@@ -176,6 +176,8 @@ input,textarea{font-family:inherit}
 .nav{display:flex;background:var(--paper);border-top:1px solid var(--line);padding-bottom:var(--safe-bot)}
 .nav button{flex:1;background:none;border:none;padding:11px 0 9px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--soft);font-size:11px;font-weight:500}
 .nav button .ic{font-size:20px;line-height:1}
+.nav button .ic.reddot{position:relative}
+.nav button .ic.reddot::after{content:'';position:absolute;top:-2px;right:-5px;width:7px;height:7px;border-radius:50%;background:#e0454a;border:1.5px solid var(--paper)}
 .nav button.on{color:var(--accent)}
 .nav button .badge{position:absolute;top:6px;margin-left:20px;background:var(--accent);color:#fff;font-size:9px;min-width:15px;height:15px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Spline Sans Mono',monospace}
 
@@ -277,6 +279,9 @@ html[data-theme="dusk"] .note{background:var(--you-bubble);color:var(--you-ink)}
 .game-status{flex:1;text-align:center;font-family:'Spline Sans Mono',monospace;font-size:13px;color:var(--ink)}
 
 /* tic-tac-toe */
+.ttt-pick{display:flex;align-items:center;justify-content:center;gap:10px;margin:14px auto 0}
+.ttt-mk{width:40px;height:40px;border-radius:11px;border:2px solid var(--line);background:#fff;font-size:20px;font-weight:700;font-family:'Fraunces',serif;color:var(--soft)}
+.ttt-mk.on{border-color:var(--accent);color:var(--accent)}
 .ttt-board{margin:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:min(84vw,320px);aspect-ratio:1}
 .ttt-cell{background:#fff;border:1px solid var(--line);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:min(15vw,58px);font-weight:700;font-family:'Fraunces',serif}
 .ttt-cell.x{color:var(--accent)}
@@ -439,6 +444,7 @@ html[data-theme="dusk"] .note{background:var(--you-bubble);color:var(--you-ink)}
             <span class="game-status" id="tttStatus"></span>
             <button class="cs-done" onclick="resetGame('ttt')">New</button>
           </div>
+          <div class="ttt-pick" id="tttPick"></div>
           <div class="ttt-board" id="tttBoard"></div>
         </div>
 
@@ -466,10 +472,10 @@ html[data-theme="dusk"] .note{background:var(--you-bubble);color:var(--you-ink)}
     </div>
 
     <div class="nav">
-      <button class="on" id="nav-chat" onclick="tab('chat')"><span class="ic">💬</span>Chat<span class="badge hidden" id="chatBadge">0</span></button>
-      <button id="nav-notes" onclick="tab('notes')"><span class="ic">📝</span>Notes</button>
-      <button id="nav-color" onclick="tab('color')"><span class="ic">🎨</span>Color</button>
-      <button id="nav-play" onclick="tab('play')"><span class="ic">🎮</span>Play</button>
+      <button class="on" id="nav-chat" onclick="tab('chat')"><span class="ic reddot">💬</span>Chat<span class="badge hidden" id="chatBadge">0</span></button>
+      <button id="nav-notes" onclick="tab('notes')"><span class="ic reddot">📝</span>Notes</button>
+      <button id="nav-color" onclick="tab('color')"><span class="ic reddot">🎨</span>Color</button>
+      <button id="nav-play" onclick="tab('play')"><span class="ic reddot">🎮</span>Play</button>
     </div>
 
     <!-- note editor -->
@@ -560,7 +566,7 @@ html[data-theme="dusk"] .note{background:var(--you-bubble);color:var(--you-ink)}
 const SUPA_URL = 'https://rrbxwwlzqvakpyvhwmtt.supabase.co';
 const SUPA_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyYnh3d2x6cXZha3B5dmh3bXR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU3ODM0MjcsImV4cCI6MjEwMTM1OTQyN30.qmJeZhLBxkceYMSjXfBSOrgPOT7bu85p63_3nD8EXHc';
 const EMAIL_DOMAIN = '@caza-app.net';
-const PRESENCE_ENABLED = true;  /* set false if realtime ever misbehaves */
+const PRESENCE_ENABLED = false;  /* disabled: was interfering with realtime sync */
 const VAPID_PUBLIC = 'BHBaFpRAfS941ufV5B18OHyFUDNdsS8Z5JfleUcgRevFrT2Di8NaHJVif0qK1Vf4ECr4tbQBRTwIpqGhqxAU2G0';
 function urlB64ToUint8(b64){
   const pad='='.repeat((4-b64.length%4)%4);
@@ -690,8 +696,10 @@ const Supa = (()=>{
 
   /* fire-and-forget: ask the Edge Function to push the partner. We don't await
      it or let a failure affect the actual send. Replaces database webhooks. */
+  let lastNoteNotify=0;
   function notifyPartner(table, record){
     try{
+      if(table==='notes'){ const now=Date.now(); if(now-lastNoteNotify<30000) return; lastNoteNotify=now; }
       sb.functions.invoke('caza-push', { body:{ table, record } }).catch(()=>{});
     }catch(e){}
   }
@@ -835,7 +843,8 @@ const Supa = (()=>{
     async savePlay(){
       if(!state.pairId)return;
       await sb.from('play').upsert({ pair_id:state.pairId, data:state.play, updated_at:new Date().toISOString() });
-      notifyPartner('play', { pair_id:state.pairId, sender:state.me.id });
+      // no per-move notification — game moves sync live and notifying every
+      // tap/swipe would spam. (Messages and notes still notify.)
     },
     onPlay(cb){ playSub=cb; },
 
@@ -1429,11 +1438,21 @@ function openGame(which){
 }
 function ensureTTT(){
   const p=Mock.getPlay();
-  if(!p.ttt){ p.ttt={board:Array(9).fill(null),turn:'a',winner:null,line:null}; Mock.savePlay(); }
+  if(!p.ttt){ p.ttt={board:Array(9).fill(null),turn:'a',winner:null,line:null,marks:{a:'x',b:'o'}}; Mock.savePlay(); }
+  if(!p.ttt.marks){ p.ttt.marks={a:'x',b:'o'}; Mock.savePlay(); }
+}
+function myTTTMark(){ const g=Mock.getPlay().ttt; return (g&&g.marks&&g.marks[myMark()])||'x'; }
+function tttSetMark(m){
+  const g=Mock.getPlay().ttt; if(!g)return;
+  // only allow before any move is made
+  if(g.board.some(Boolean)){ toast('Can\u2019t switch mid-game \u2014 tap New first'); return; }
+  const mine=myMark(), theirs=theirMark();
+  g.marks[mine]=m; g.marks[theirs]=(m==='x'?'o':'x');
+  Mock.savePlay(); renderTTT();
 }
 function resetGame(g){
   const p=Mock.getPlay();
-  if(g==='ttt'){ p.ttt={board:Array(9).fill(null),turn:'a',winner:null,line:null}; }
+  if(g==='ttt'){ const old=p.ttt&&p.ttt.marks; p.ttt={board:Array(9).fill(null),turn:'a',winner:null,line:null,marks:old||{a:'x',b:'o'}}; }
   else if(g==='dots'){ p.dots=freshDots(); }
   Mock.savePlay();
   g==='ttt'?renderTTT():renderDots();
@@ -1441,18 +1460,30 @@ function resetGame(g){
 const TTT_WINS=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
 function renderTTT(){
   const p=Mock.getPlay(); const g=p.ttt; if(!g)return;
+  const marks=g.marks||{a:'x',b:'o'};
+  const glyph=side=>{ const m=marks[side]; return m==='x'?'\u2715':'\u25EF'; };
   const board=$('tttBoard'); board.innerHTML='';
   g.board.forEach((v,i)=>{
     const c=document.createElement('div');
-    c.className='ttt-cell'+(v==='a'?' x':v==='b'?' o':'')+(g.line&&g.line.indexOf(i)>=0?' win':'');
-    c.textContent=v==='a'?'\u2715':v==='b'?'\u25EF':'';
+    const cls=v?(marks[v]==='x'?' x':' o'):'';
+    c.className='ttt-cell'+cls+(g.line&&g.line.indexOf(i)>=0?' win':'');
+    c.textContent=v?glyph(v):'';
     c.onclick=()=>tttTap(i);
     board.appendChild(c);
   });
+  // mark picker (only usable before the first move)
+  const pick=$('tttPick');
+  if(pick){
+    const mine=myTTTMark();
+    pick.innerHTML='<span style="color:var(--soft);font-size:12px;font-family:\'Spline Sans Mono\',monospace">You play</span>'+
+      '<button class="ttt-mk'+(mine==='x'?' on':'')+'" onclick="tttSetMark(\'x\')">\u2715</button>'+
+      '<button class="ttt-mk'+(mine==='o'?' on':'')+'" onclick="tttSetMark(\'o\')">\u25EF</button>';
+    pick.style.display = g.board.some(Boolean) ? 'none' : 'flex';
+  }
   const st=$('tttStatus');
   if(g.winner==='draw')st.textContent='Draw \u2014 tap New';
   else if(g.winner)st.textContent=(g.winner===myMark()?'You won':theirName()+' won')+' \uD83C\uDF89';
-  else st.textContent=(g.turn===myMark()?'Your turn':theirName()+'\u2019s turn')+' \u00b7 you are \u2715';
+  else st.textContent=(g.turn===myMark()?'Your turn':theirName()+'\u2019s turn')+' \u00b7 you are '+(myTTTMark()==='x'?'\u2715':'\u25EF');
 }
 function tttTap(i){
   const p=Mock.getPlay(); const g=p.ttt;
