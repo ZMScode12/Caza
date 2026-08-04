@@ -216,7 +216,7 @@ html[data-theme="dusk"] .note{background:var(--you-bubble);color:var(--you-ink)}
 .sheet.on{display:block}
 .sheet-scrim{position:absolute;inset:0;background:rgba(0,0,0,.4);animation:fade .2s}
 @keyframes fade{from{opacity:0}to{opacity:1}}
-.sheet-card{position:absolute;left:0;right:0;bottom:0;background:var(--paper);border-radius:22px 22px 0 0;padding:10px 20px calc(24px + var(--safe-bot));box-shadow:0 -10px 40px rgba(0,0,0,.2);animation:rise .24s cubic-bezier(.2,.8,.2,1)}
+.sheet-card{position:absolute;left:0;right:0;bottom:0;max-height:88dvh;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--paper);border-radius:22px 22px 0 0;padding:10px 20px calc(24px + var(--safe-bot));box-shadow:0 -10px 40px rgba(0,0,0,.2);animation:rise .24s cubic-bezier(.2,.8,.2,1)}
 @keyframes rise{from{transform:translateY(100%)}to{transform:none}}
 .sheet-grip{width:38px;height:4px;border-radius:2px;background:var(--line);margin:4px auto 14px}
 .sheet-h{font-family:'Fraunces',serif;font-weight:600;font-size:24px;margin:0 0 18px}
@@ -921,6 +921,10 @@ const Supa = (()=>{
       // no per-move notification — game moves sync live and notifying every
       // tap/swipe would spam. (Messages and notes still notify.)
     },
+    notifyGame(text){
+      // sent only at meaningful moments (your turn / game over), not every move
+      try{ sb.functions.invoke('caza-push', { body:{ table:'game', record:{ pair_id:state.pairId, sender:state.me.id, body:text } } }).catch(()=>{}); }catch(e){}
+    },
     onPlay(cb){ playSub=cb; },
 
     /* ---------- presence ---------- */
@@ -1089,6 +1093,7 @@ const _MockUnused = (()=> {
     savePlay:()=>{ persist(); if(playSub)setTimeout(()=>playSub(),40); },
     onPlay:(cb)=>{ playSub=cb; },
     onPresence:(cb)=>{ presenceSub=cb; },
+    notifyGame:()=>{},
     partnerStatus:()=>({ online:true, text:'online' }),
     sendTyping:()=>{},
     onTyping:(cb)=>{ typingCb=cb; },
@@ -1301,22 +1306,30 @@ function renderMsg(m,grouped,showName){
   return el;
 }
 function attachMsgGestures(el,m){
-  let press=null, sx=0, sy=0, moved=false, swiping=false;
-  const start=(x,y)=>{ sx=x; sy=y; moved=false; swiping=false; press=setTimeout(()=>{ if(!moved){ openReactBar(el,m.id); } }, 350); };
+  let press=null, sx=0, sy=0, moved=false, swiping=false, lockDir=null;
+  const start=(x,y)=>{ sx=x; sy=y; moved=false; swiping=false; lockDir=null; press=setTimeout(()=>{ if(!moved){ openReactBar(el,m.id); } }, 350); };
   const move=(x,y)=>{
     const dx=x-sx, dy=y-sy;
-    if(Math.abs(dx)>8||Math.abs(dy)>8){ moved=true; clearTimeout(press); }
-    // swipe right to reply (only a mostly-horizontal rightward drag)
-    if(dx>12 && Math.abs(dy)<40){ swiping=true; el.style.transform='translateX('+Math.min(dx,70)+'px)'; el.classList.add('swiping'); }
+    if(Math.abs(dx)>6||Math.abs(dy)>6){ moved=true; clearTimeout(press); }
+    // decide once whether this drag is horizontal (reply) or vertical (scroll)
+    if(!lockDir && (Math.abs(dx)>10||Math.abs(dy)>10)){ lockDir = Math.abs(dx)>Math.abs(dy) ? 'h' : 'v'; }
+    if(lockDir==='h' && dx>0){ swiping=true; el.style.transform='translateX('+Math.min(dx,70)+'px)'; el.classList.add('swiping'); return true; }
+    return false;
   };
   const end=(x)=>{
     clearTimeout(press);
     const dx=x-sx;
     el.style.transform=''; el.classList.remove('swiping');
     if(swiping && dx>52){ startReply(m); }
+    swiping=false; lockDir=null;
   };
   el.addEventListener('touchstart',e=>{ const t=e.touches[0]; start(t.clientX,t.clientY); },{passive:true});
-  el.addEventListener('touchmove',e=>{ const t=e.touches[0]; move(t.clientX,t.clientY); },{passive:true});
+  el.addEventListener('touchmove',e=>{
+    const t=e.touches[0];
+    const isHoriz=move(t.clientX,t.clientY);
+    // once we're horizontally swiping, stop the page from scrolling/panning
+    if(isHoriz && e.cancelable){ e.preventDefault(); }
+  },{passive:false});
   el.addEventListener('touchend',e=>{ const t=(e.changedTouches&&e.changedTouches[0])||{clientX:sx}; end(t.clientX); });
   // desktop fallbacks
   el.addEventListener('dblclick',()=>openReactBar(el,m.id));
@@ -1734,9 +1747,9 @@ function tttTap(i){
   if(g.winner||g.board[i]||g.turn!==myMark())return;
   g.board[i]=myMark();
   const line=TTT_WINS.find(l=>l.every(k=>g.board[k]===myMark()));
-  if(line){ g.winner=myMark(); g.line=line; recordWin('ttt',myMark()); }
-  else if(g.board.every(Boolean)){ g.winner='draw'; }
-  else g.turn=theirMark();
+  if(line){ g.winner=myMark(); g.line=line; recordWin('ttt',myMark()); if(Mock.notifyGame)Mock.notifyGame(myName()+' won at Tic-Tac-Toe'); }
+  else if(g.board.every(Boolean)){ g.winner='draw'; if(Mock.notifyGame)Mock.notifyGame('Tic-Tac-Toe ended in a draw'); }
+  else { g.turn=theirMark(); if(Mock.notifyGame)Mock.notifyGame('Your turn in Tic-Tac-Toe'); }
   Mock.savePlay(); renderTTT();
 }
 
@@ -1802,8 +1815,9 @@ function dotsTap(kind,r,c){
   if(g.score.a+g.score.b>=total){ g.done=true;
     const winner = g.score.a===g.score.b ? null : (g.score.a>g.score.b?'a':'b');
     if(winner) recordWin('dots',winner);
+    if(Mock.notifyGame)Mock.notifyGame('Dots & Boxes finished');
   }
-  else if(closed===0){ g.turn=theirMark(); }  // closing a box grants another turn
+  else if(closed===0){ g.turn=theirMark(); if(Mock.notifyGame)Mock.notifyGame('Your turn in Dots & Boxes'); }  // closing a box grants another turn
   Mock.savePlay(); renderDots();
 }
 
