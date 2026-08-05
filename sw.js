@@ -61,7 +61,15 @@ self.addEventListener('push', function(e){
     tag: data.tag || 'caza-msg',
     data: { url: data.url || '/' }
   };
-  e.waitUntil(self.registration.showNotification(title, opts));
+  e.waitUntil(
+    self.clients.matchAll({ type:'window', includeUncontrolled:true }).then(function(list){
+      // if the app is open AND focused/visible, don't show a notification —
+      // the user is already looking at Caza and will see it live.
+      var active = list.some(function(c){ return c.focused || c.visibilityState === 'visible'; });
+      if (active) return;
+      return self.registration.showNotification(title, opts);
+    })
+  );
 });
 
 self.addEventListener('notificationclick', function(e){
