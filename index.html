@@ -629,7 +629,7 @@ html[data-theme="dusk"] .note{background:var(--you-bubble);color:var(--you-ink)}
 const SUPA_URL = 'https://rrbxwwlzqvakpyvhwmtt.supabase.co';
 const SUPA_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyYnh3d2x6cXZha3B5dmh3bXR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU3ODM0MjcsImV4cCI6MjEwMTM1OTQyN30.qmJeZhLBxkceYMSjXfBSOrgPOT7bu85p63_3nD8EXHc';
 const EMAIL_DOMAIN = '@caza-app.net';
-const PRESENCE_ENABLED = false;  /* disabled: was interfering with realtime sync */
+const PRESENCE_ENABLED = true;   /* re-enabled after sync fix (replica identity) */
 const VAPID_PUBLIC = 'BHBaFpRAfS941ufV5B18OHyFUDNdsS8Z5JfleUcgRevFrT2Di8NaHJVif0qK1Vf4ECr4tbQBRTwIpqGhqxAU2G0';
 function urlB64ToUint8(b64){
   const pad='='.repeat((4-b64.length%4)%4);
@@ -666,7 +666,7 @@ const Supa = (()=>{
   loadPrefs();
 
   let msgSub=null, noteSub=null, colorSub=null, pairSub=null, playSub=null, presenceSub=null, typingSub=null;
-  let presenceChan=null, seenTimer=null, partnerSeenTimer=null;
+  let presenceChan=null, seenTimer=null, partnerSeenTimer=null, presenceVisWired=false;
   let realtimeChan=null;
 
   const initial = n => (n&&n[0]?n[0].toUpperCase():'?');
@@ -733,8 +733,21 @@ const Supa = (()=>{
           if(presenceSub) presenceSub();
         }catch(e){}
       }).subscribe((status)=>{
-        if(status==='SUBSCRIBED'){ presenceChan.track({ at: Date.now() }).catch(()=>{}); }
+        if(status==='SUBSCRIBED'){ if(!document.hidden) presenceChan.track({ at: Date.now() }).catch(()=>{}); }
       });
+      // only count as "online" while the app is actually in the foreground:
+      // untrack when the tab is hidden/backgrounded, re-track when it returns.
+      if(!presenceVisWired){
+        presenceVisWired = true;
+        document.addEventListener('visibilitychange', ()=>{
+          try{
+            if(!presenceChan) return;
+            if(document.hidden){ presenceChan.untrack().catch(()=>{}); }
+            else { presenceChan.track({ at: Date.now() }).catch(()=>{}); stampSeen(); }
+          }catch(e){}
+        });
+        window.addEventListener('pagehide', ()=>{ try{ if(presenceChan)presenceChan.untrack(); }catch(e){} });
+      }
     } catch(e){}
     // last_seen stamping — each wrapped so a missing RPC can't throw upward
     try { stampSeen(); } catch(e){}
